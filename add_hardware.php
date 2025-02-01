@@ -1,5 +1,22 @@
 <?php
-// Example of add hardware form
+include 'db.php';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Get the form data
+    $name = $_POST['name'];
+    $location = $_POST['location'];
+    $status = $_POST['status'];
+
+    // Insert data into the hardware table
+    $query = "INSERT INTO hardware (name, location, status, created_at) VALUES ('$name', '$location', '$status', NOW())";
+
+    // Check if the insertion was successful
+    if (mysqli_query($conn, $query)) {
+        $message = "New hardware added successfully!";
+    } else {
+        $message = "Error: " . mysqli_error($conn);
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
