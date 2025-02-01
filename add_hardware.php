@@ -1,4 +1,4 @@
-add_hardware.php
+
 
 <?php
 include 'db.php';
