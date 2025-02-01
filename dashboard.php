@@ -1,78 +1,102 @@
 <?php
-
 include 'db.php';
 
+// Function para sa pagkuha ng count sa database
+function getCount($conn, $query) {
+    $result = mysqli_query($conn, $query);
+    if (!$result) {
+        return 0;
+    }
+    $row = mysqli_fetch_assoc($result);
+    return $row ? reset($row) : 0;
+}
 
-$query = "SELECT COUNT(*) AS total_hardware FROM hardware";
-$result = mysqli_query($conn, $query);
-$row = mysqli_fetch_assoc($result);
-$total_hardware = $row['total_hardware'];
+// Check kung may table bago mag-query
+$tableCheck = mysqli_query($conn, "SHOW TABLES LIKE 'hardware'");
+if (mysqli_num_rows($tableCheck) == 0) {
+    die("Error: Table 'hardware' does not exist. Please check your database.");
+}
 
+$total_hardware = getCount($conn, "SELECT COUNT(*) FROM hardware");
+$available_assets = getCount($conn, "SELECT COUNT(*) FROM hardware WHERE status = 'available'");
+$pending_requests = getCount($conn, "SELECT COUNT(*) FROM maintenance_requests WHERE status = 'pending'");
+$critical_alerts = getCount($conn, "SELECT COUNT(*) FROM maintenance_requests WHERE status = 'critical'");
 
-$query = "SELECT COUNT(*) AS available_assets FROM hardware WHERE status = 'available'";
-$result = mysqli_query($conn, $query);
-$row = mysqli_fetch_assoc($result);
-$available_assets = $row['available_assets'];
-
-$query = "SELECT COUNT(*) AS pending_requests FROM maintenance_requests WHERE status = 'pending'";
-$result = mysqli_query($conn, $query);
-$row = mysqli_fetch_assoc($result);
-$pending_requests = $row['pending_requests'];
-
-
-$query = "SELECT COUNT(*) AS critical_alerts FROM maintenance_requests WHERE status = 'pending'";
-$result = mysqli_query($conn, $query);
-$row = mysqli_fetch_assoc($result);
-$critical_alerts = $row['critical_alerts'];
-
-
-$query = "SELECT * FROM activity_logs ORDER BY created_at DESC LIMIT 5";
-$logs_result = mysqli_query($conn, $query);
-
+// Pagkuha ng logs
+$logs_result = mysqli_query($conn, "SELECT * FROM activity_logs ORDER BY created_at DESC LIMIT 5");
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hardware Management Dashboard</title>
-    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <div class="dashboard">
-        <h1>Hardware Management System</h1>
-        <div class="overview">
-            <h2>Real-Time Overview</h2>
-            <ul>
-                <li>Total Hardware: <?php echo $total_hardware; ?></li>
-                <li>Available Assets: <?php echo $available_assets; ?></li>
-                <li>Pending Maintenance Requests: <?php echo $pending_requests; ?></li>
-                <li>Critical Alerts: <?php echo $critical_alerts; ?></li>
-            </ul>
+<body class="bg-gray-100">
+
+    <div class="max-w-6xl mx-auto p-6">
+        <!-- Header -->
+        <header class="text-center mb-8">
+            <h1 class="text-3xl font-bold text-gray-800">Hardware Management System</h1>
+        </header>
+
+        <!-- Stats Overview -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+            <div class="bg-white shadow-md p-6 rounded-lg text-center">
+                <h2 class="text-gray-500 text-lg">Total Hardware</h2>
+                <p class="text-3xl font-bold text-blue-500"><?php echo $total_hardware; ?></p>
+            </div>
+            <div class="bg-white shadow-md p-6 rounded-lg text-center">
+                <h2 class="text-gray-500 text-lg">Available Assets</h2>
+                <p class="text-3xl font-bold text-green-500"><?php echo $available_assets; ?></p>
+            </div>
+            <div class="bg-white shadow-md p-6 rounded-lg text-center">
+                <h2 class="text-gray-500 text-lg">Pending Requests</h2>
+                <p class="text-3xl font-bold text-yellow-500"><?php echo $pending_requests; ?></p>
+            </div>
+            <div class="bg-white shadow-md p-6 rounded-lg text-center">
+                <h2 class="text-gray-500 text-lg">Critical Alerts</h2>
+                <p class="text-3xl font-bold text-red-500"><?php echo $critical_alerts; ?></p>
+            </div>
         </div>
 
-        <div class="recent-activity">
-            <h2>Recent Activity Logs</h2>
-            <ul>
+        <!-- Recent Activity Logs -->
+        <div class="mt-10 bg-white shadow-md p-6 rounded-lg">
+            <h2 class="text-xl font-bold text-gray-700 mb-4">Recent Activity Logs</h2>
+            <ul class="divide-y divide-gray-200">
                 <?php while ($log = mysqli_fetch_assoc($logs_result)) { ?>
-                    <li><?php echo $log['activity_type']; ?>: <?php echo $log['description']; ?> (<?php echo $log['created_at']; ?>)</li>
+                    <li class="py-2 text-gray-600">
+                        <span class="font-semibold"><?php echo htmlspecialchars($log['activity_type']); ?></span>: 
+                        <?php echo htmlspecialchars($log['description']); ?> 
+                        <span class="text-sm text-gray-400">(<?php echo htmlspecialchars($log['created_at']); ?>)</span>
+                    </li>
                 <?php } ?>
             </ul>
         </div>
 
-        <div class="quick-actions">
-            <h2>Quick Actions</h2>
-            <ul>
-                <li><a href="add_hardware.php">Add New Hardware</a></li>
-                <li><a href="repair_request.php">Create Repair Request</a></li>
-                <li><a href="generate_reports.php">Generate Reports</a></li>
-            </ul>
+        <!-- Quick Actions -->
+        <div class="mt-10">
+            <h2 class="text-xl font-bold text-gray-700 mb-4">Quick Actions</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <a href="add_hardware.php" class="bg-blue-500 text-white text-center py-3 rounded-lg shadow-md hover:bg-blue-600">
+                    Add New Hardware
+                </a>
+                <a href="repair_request.php" class="bg-yellow-500 text-white text-center py-3 rounded-lg shadow-md hover:bg-yellow-600">
+                    Create Repair Request
+                </a>
+                <a href="generate_reports.php" class="bg-green-500 text-white text-center py-3 rounded-lg shadow-md hover:bg-green-600">
+                    Generate Reports
+                </a>
+            </div>
         </div>
     </div>
+
 </body>
 </html>
 
 <?php
-// Close the database connection
+mysqli_free_result($logs_result);
 mysqli_close($conn);
 ?>
