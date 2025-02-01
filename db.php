@@ -8,7 +8,6 @@ $result = mysqli_query($conn, $query);
 $row = mysqli_fetch_assoc($result);
 $total_hardware = $row['total_hardware'];
 
-
 $query = "SELECT COUNT(*) AS available_assets FROM hardware WHERE status = 'available'";
 $result = mysqli_query($conn, $query);
 $row = mysqli_fetch_assoc($result);
