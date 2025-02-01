@@ -11,7 +11,6 @@ function getCount($conn, $query) {
     return $row ? reset($row) : 0;
 }
 
-
 // Check kung may table bago mag-query
 $tableCheck = mysqli_query($conn, "SHOW TABLES LIKE 'hardware'");
 if (mysqli_num_rows($tableCheck) == 0) {
@@ -32,7 +31,7 @@ $logs_result = mysqli_query($conn, "SELECT * FROM activity_logs ORDER BY created
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hardware Management Dashboardd</title>
+    <title>Hardware Management Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100">
