@@ -97,3 +97,4 @@ mysqli_free_result($hardware_query);
 mysqli_free_result($maintenance_query);
 mysqli_close($conn);
 ?>
+
