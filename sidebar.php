@@ -100,7 +100,6 @@
 <div class="sidebar">
     <!-- Logo Section -->
     <div class="logo">
-        <img src="Logo.png" alt="">
         <h1>Hardware Management</h1>
     </div>
 
