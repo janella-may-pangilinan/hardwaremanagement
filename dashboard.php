@@ -1,5 +1,6 @@
-<?php
 
+
+<?php
 include 'db.php';
 include 'sidebar.php'; // Include sidebar
 

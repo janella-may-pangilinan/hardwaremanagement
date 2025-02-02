@@ -1,8 +1,5 @@
 <?php
 
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
 $servername = "localhost"; // Palitan kung ibang server gamit mo
 $username = "root"; // Default sa XAMPP
 $password = ""; // Default sa XAMPP (walang password)
@@ -16,5 +13,4 @@ $conn = mysqli_connect($servername, $username, $password, $database);
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
-
 ?>
