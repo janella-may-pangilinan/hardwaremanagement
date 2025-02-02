@@ -112,7 +112,7 @@
         <li><a href="maintenance.php"><i class="fas fa-tools"></i> Maintenance</a></li>
         <li><a href="disposal.php"><i class="fas fa-trash-alt"></i> Disposal</a></li>
         <li><a href="reports.php"><i class="fas fa-chart-bar"></i> Reports</a></li>
-        <li><a href="logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+        <li><a href="index.php"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
     </ul>
 </div>
 
