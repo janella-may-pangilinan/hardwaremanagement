@@ -108,7 +108,7 @@
 <body>
 
 <div class="register-box">
-    <h2>Registration</h2>
+    <h2>Register</h2>
 
     <?php if (isset($_GET['error'])): ?>
         <p class="message error"><?php echo htmlspecialchars($_GET['error']); ?></p>
