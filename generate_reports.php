@@ -23,8 +23,33 @@ if (isset($_GET['delete_request'])) {
     }
 }
 
+// Handling accept request
+if (isset($_GET['accept_request'])) {
+    $request_id = $_GET['accept_request'];
+    $accept_query = "UPDATE maintenance_requests SET status = 'approved' WHERE id = '$request_id'";
+    if (mysqli_query($conn, $accept_query)) {
+        echo "<script>alert('Request approved successfully!'); window.location.href='generate_reports.php';</script>";
+    } else {
+        echo "Error: " . mysqli_error($conn);
+    }
+}
+
+// Handling decline request
+if (isset($_GET['decline_request'])) {
+    $request_id = $_GET['decline_request'];
+    $decline_query = "UPDATE maintenance_requests SET status = 'declined' WHERE id = '$request_id'";
+    if (mysqli_query($conn, $decline_query)) {
+        echo "<script>alert('Request declined successfully!'); window.location.href='generate_reports.php';</script>";
+    } else {
+        echo "Error: " . mysqli_error($conn);
+    }
+}
+
+// Get hardware list
 $hardware_query = mysqli_query($conn, "SELECT * FROM hardware");
-$maintenance_query = mysqli_query($conn, "SELECT * FROM maintenance_requests");
+
+// Get maintenance requests, but only show pending requests
+$maintenance_query = mysqli_query($conn, "SELECT * FROM maintenance_requests WHERE status = 'pending'");
 ?>
 
 <!DOCTYPE html>
@@ -55,7 +80,7 @@ $maintenance_query = mysqli_query($conn, "SELECT * FROM maintenance_requests");
                     <td class="border px-4 py-2"><?php echo ucfirst($hardware['status']); ?></td>
                     <td class="border px-4 py-2">
                         <a href="edit_hardware.php?id=<?php echo $hardware['id']; ?>" class="text-blue-500 hover:text-blue-700">Edit</a> |
-                        <a href="?delete_hardware=<?php echo $hardware['id']; ?>" class="text-red-500 hover:text-red-700">Delete</a>
+                        <a href="?delete_hardware=<?php echo $hardware['id']; ?>" class="text-red-500 hover:text-red-700" onclick="return confirm('Are you sure you want to delete this hardware?');">Delete</a>
                     </td>
                 </tr>
                 <?php } ?>
@@ -68,7 +93,7 @@ $maintenance_query = mysqli_query($conn, "SELECT * FROM maintenance_requests");
         <table class="w-full border-collapse border border-gray-300">
             <thead>
                 <tr class="bg-gray-200">
-                    <th class="border px-4 py-2">Hardware Name</th>
+                    <th class="border px-4 py-2">Hardware ID</th>
                     <th class="border px-4 py-2">Issue</th>
                     <th class="border px-4 py-2">Status</th>
                     <th class="border px-4 py-2">Actions</th>
@@ -81,13 +106,18 @@ $maintenance_query = mysqli_query($conn, "SELECT * FROM maintenance_requests");
                     <td class="border px-4 py-2"><?php echo $maintenance['issue']; ?></td>
                     <td class="border px-4 py-2"><?php echo ucfirst($maintenance['status']); ?></td>
                     <td class="border px-4 py-2">
-                        <a href="edit_request.php?id=<?php echo $maintenance['id']; ?>" class="text-blue-500 hover:text-blue-700">Edit</a> |
-                        <a href="?delete_request=<?php echo $maintenance['id']; ?>" class="text-red-500 hover:text-red-700">Delete</a>
+                        <a href="?accept_request=<?php echo $maintenance['id']; ?>" class="text-green-500 hover:text-green-700">Accept</a> |
+                        <a href="?decline_request=<?php echo $maintenance['id']; ?>" class="text-red-500 hover:text-red-700">Decline</a> |
+                        <a href="?delete_request=<?php echo $maintenance['id']; ?>" class="text-gray-500 hover:text-gray-700" onclick="return confirm('Are you sure you want to delete this request?');">Delete</a>
                     </td>
                 </tr>
                 <?php } ?>
             </tbody>
         </table>
+
+        <?php if (mysqli_num_rows($maintenance_query) == 0) { ?>
+            <p class="text-center text-gray-500 mt-4">No pending maintenance requests.</p>
+        <?php } ?>
     </div>
 </body>
 </html>
@@ -97,4 +127,3 @@ mysqli_free_result($hardware_query);
 mysqli_free_result($maintenance_query);
 mysqli_close($conn);
 ?>
-

@@ -11,19 +11,19 @@ function getCount($conn, $query) {
     return $row ? reset($row) : 0;
 }
 
-
 // Check kung may table bago mag-query
 $tableCheck = mysqli_query($conn, "SHOW TABLES LIKE 'hardware'");
 if (mysqli_num_rows($tableCheck) == 0) {
     die("Error: Table 'hardware' does not exist. Please check your database.");
 }
 
+// Get statistics
 $total_hardware = getCount($conn, "SELECT COUNT(*) FROM hardware");
 $available_assets = getCount($conn, "SELECT COUNT(*) FROM hardware WHERE status = 'available'");
 $pending_requests = getCount($conn, "SELECT COUNT(*) FROM maintenance_requests WHERE status = 'pending'");
 $critical_alerts = getCount($conn, "SELECT COUNT(*) FROM maintenance_requests WHERE status = 'critical'");
 
-// Pagkuha ng logs
+// Pagkuha ng logs (error handling para di mag-error kung walang table)
 $logs_result = mysqli_query($conn, "SELECT * FROM activity_logs ORDER BY created_at DESC LIMIT 5");
 ?>
 
@@ -32,7 +32,7 @@ $logs_result = mysqli_query($conn, "SELECT * FROM activity_logs ORDER BY created
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hardware Management Dashboardd</title>
+    <title>Hardware Management Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100">
@@ -67,12 +67,16 @@ $logs_result = mysqli_query($conn, "SELECT * FROM activity_logs ORDER BY created
         <div class="mt-10 bg-white shadow-md p-6 rounded-lg">
             <h2 class="text-xl font-bold text-gray-700 mb-4">Recent Activity Logs</h2>
             <ul class="divide-y divide-gray-200">
-                <?php while ($log = mysqli_fetch_assoc($logs_result)) { ?>
-                    <li class="py-2 text-gray-600">
-                        <span class="font-semibold"><?php echo htmlspecialchars($log['activity_type']); ?></span>: 
-                        <?php echo htmlspecialchars($log['description']); ?> 
-                        <span class="text-sm text-gray-400">(<?php echo htmlspecialchars($log['created_at']); ?>)</span>
-                    </li>
+                <?php if ($logs_result && mysqli_num_rows($logs_result) > 0) { ?>
+                    <?php while ($log = mysqli_fetch_assoc($logs_result)) { ?>
+                        <li class="py-2 text-gray-600">
+                            <span class="font-semibold"><?php echo htmlspecialchars($log['activity_type']); ?></span>: 
+                            <?php echo htmlspecialchars($log['description']); ?> 
+                            <span class="text-sm text-gray-400">(<?php echo htmlspecialchars($log['created_at']); ?>)</span>
+                        </li>
+                    <?php } ?>
+                <?php } else { ?>
+                    <li class="py-2 text-gray-600">No activity logs found.</li>
                 <?php } ?>
             </ul>
         </div>
@@ -98,6 +102,9 @@ $logs_result = mysqli_query($conn, "SELECT * FROM activity_logs ORDER BY created
 </html>
 
 <?php
-mysqli_free_result($logs_result);
+// Free result set kung may laman ang logs_result
+if ($logs_result) {
+    mysqli_free_result($logs_result);
+}
 mysqli_close($conn);
 ?>
