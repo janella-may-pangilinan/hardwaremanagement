@@ -1,4 +1,7 @@
+
+
 <?php
+session_start();
 include 'db.php';
 
 // Function para sa pagkuha ng count sa database
