@@ -24,4 +24,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     header("Location: index.php?error=Invalid username or password");
     exit();
+    
 }
