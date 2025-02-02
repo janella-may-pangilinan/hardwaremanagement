@@ -34,15 +34,6 @@ if (isset($_GET['delete'])) {
     mysqli_query($conn, "DELETE FROM maintenance_requests WHERE id = '$request_id'");
 }
 
-// Handling edit request (UPDATE)
-if (isset($_POST['edit_request'])) {
-    $request_id = $_POST['request_id'];
-    $issue = $_POST['issue'];
-    $technician = $_POST['technician'];
-    $update_query = "UPDATE maintenance_requests SET issue = '$issue', technician = '$technician' WHERE id = '$request_id'";
-    mysqli_query($conn, $update_query);
-}
-
 // Fetching requests (READ)
 $requests = mysqli_query($conn, "SELECT * FROM maintenance_requests ORDER BY created_at DESC");
 ?>
@@ -62,7 +53,7 @@ $requests = mysqli_query($conn, "SELECT * FROM maintenance_requests ORDER BY cre
             margin: 0;
             padding: 0;
         }
-        
+
         header {
             background-color: #4CAF50;
             color: white;
@@ -148,26 +139,22 @@ $requests = mysqli_query($conn, "SELECT * FROM maintenance_requests ORDER BY cre
             color: white;
         }
 
-        /* Edit Form */
-        #editForm {
-            display: none;
-            background-color: white;
-            padding: 20px;
-            margin: 20px;
-            border-radius: 8px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .cancel-btn {
-            background-color: #ccc;
-            border: none;
+        .status-btn {
             padding: 8px 16px;
-            cursor: pointer;
+            text-decoration: none;
+            border-radius: 4px;
+            color: white;
+            font-size: 14px;
         }
 
-        .cancel-btn:hover {
-            background-color: #bbb;
+        .complete-btn {
+            background-color: #28a745;
         }
+
+        .reject-btn {
+            background-color: #dc3545;
+        }
+
     </style>
 </head>
 <body>
@@ -212,10 +199,8 @@ $requests = mysqli_query($conn, "SELECT * FROM maintenance_requests ORDER BY cre
                                 <button type="submit" name="assign_technician">Assign</button>
                             </form>
                         <?php } ?>
-                        <?php if ($row['status'] == 'In Progress') { ?>
-                            <a href="?complete=<?php echo $row['id']; ?>" class="button">Complete</a>
-                            <a href="?reject=<?php echo $row['id']; ?>" class="button">Reject</a>
-                        <?php } ?>
+                        <a href="?complete=<?php echo $row['id']; ?>" class="status-btn complete-btn">Complete</a>
+                        <a href="?reject=<?php echo $row['id']; ?>" class="status-btn reject-btn">Reject</a>
                         <button class="edit-btn" onclick="editRequest('<?php echo $row['id']; ?>', '<?php echo htmlspecialchars($row['issue'], ENT_QUOTES); ?>', '<?php echo htmlspecialchars($row['technician'], ENT_QUOTES); ?>')">Edit</button>
                         <a class="delete-btn" href="?delete=<?php echo $row['id']; ?>" onclick="return confirm('Are you sure you want to delete this request?');">Delete</a>
                     </td>
@@ -225,7 +210,7 @@ $requests = mysqli_query($conn, "SELECT * FROM maintenance_requests ORDER BY cre
     </section>
 
     <!-- Edit Form (Hidden by Default) -->
-    <div id="editForm">
+    <div id="editForm" style="display:none;">
         <h2>Edit Repair Request</h2>
         <form method="post">
             <input type="hidden" name="request_id" id="edit_request_id">
@@ -234,7 +219,7 @@ $requests = mysqli_query($conn, "SELECT * FROM maintenance_requests ORDER BY cre
             <label>Technician:</label>
             <input type="text" name="technician" id="edit_technician">
             <button type="submit" name="edit_request">Update</button>
-            <button type="button" class="cancel-btn" onclick="document.getElementById('editForm').style.display='none';">Cancel</button>
+            <button type="button" onclick="document.getElementById('editForm').style.display='none';">Cancel</button>
         </form>
     </div>
 
@@ -246,7 +231,6 @@ $requests = mysqli_query($conn, "SELECT * FROM maintenance_requests ORDER BY cre
             document.getElementById('editForm').style.display = 'block';
         }
     </script>
-
 </body>
 </html>
 
