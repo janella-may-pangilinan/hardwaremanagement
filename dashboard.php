@@ -23,7 +23,7 @@ $available_assets = getCount($conn, "SELECT COUNT(*) FROM hardware WHERE status 
 $pending_requests = getCount($conn, "SELECT COUNT(*) FROM maintenance_requests WHERE status = 'pending'");
 $critical_alerts = getCount($conn, "SELECT COUNT(*) FROM maintenance_requests WHERE status = 'critical'");
 
-// Pagkuha ng logs (error handling para di mag-error kung walang table)
+// Pagkuha ng logs
 $logs_result = mysqli_query($conn, "SELECT * FROM activity_logs ORDER BY created_at DESC LIMIT 5");
 ?>
 
@@ -67,16 +67,12 @@ $logs_result = mysqli_query($conn, "SELECT * FROM activity_logs ORDER BY created
         <div class="mt-10 bg-white shadow-md p-6 rounded-lg">
             <h2 class="text-xl font-bold text-gray-700 mb-4">Recent Activity Logs</h2>
             <ul class="divide-y divide-gray-200">
-                <?php if ($logs_result && mysqli_num_rows($logs_result) > 0) { ?>
-                    <?php while ($log = mysqli_fetch_assoc($logs_result)) { ?>
-                        <li class="py-2 text-gray-600">
-                            <span class="font-semibold"><?php echo htmlspecialchars($log['activity_type']); ?></span>: 
-                            <?php echo htmlspecialchars($log['description']); ?> 
-                            <span class="text-sm text-gray-400">(<?php echo htmlspecialchars($log['created_at']); ?>)</span>
-                        </li>
-                    <?php } ?>
-                <?php } else { ?>
-                    <li class="py-2 text-gray-600">No activity logs found.</li>
+                <?php while ($log = mysqli_fetch_assoc($logs_result)) { ?>
+                    <li class="py-2 text-gray-600">
+                        <span class="font-semibold"><?php echo htmlspecialchars($log['activity_type']); ?></span>: 
+                        <?php echo htmlspecialchars($log['description']); ?> 
+                        <span class="text-sm text-gray-400">(<?php echo htmlspecialchars($log['created_at']); ?>)</span>
+                    </li>
                 <?php } ?>
             </ul>
         </div>
