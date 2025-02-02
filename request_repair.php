@@ -1,6 +1,7 @@
 <?php
 include 'db.php';
 
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $hardware_id = $_POST['hardware_id'];
     $issue = $_POST['issue'];
