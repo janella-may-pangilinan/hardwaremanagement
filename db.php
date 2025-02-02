@@ -1,5 +1,8 @@
 <?php
 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 $servername = "localhost"; // Palitan kung ibang server gamit mo
 $username = "root"; // Default sa XAMPP
 $password = ""; // Default sa XAMPP (walang password)

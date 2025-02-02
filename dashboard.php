@@ -1,6 +1,8 @@
 <?php
+
 include 'db.php';
 include 'sidebar.php'; // Include sidebar
+
 
 // Function para sa pagkuha ng count sa database
 function getCount($conn, $query) {
@@ -105,3 +107,4 @@ if ($logs_result) {
 }
 mysqli_close($conn);
 ?>
+
