@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Registration</title>
     <style>
-        /* General Styles */
+        
         * {
             margin: 0;
             padding: 0;
@@ -20,7 +20,7 @@
             height: 100vh;
         }
 
-        /* Register Box */
+       
         .register-box {
             background: rgba(255, 255, 255, 0.1);
             padding: 70px;
@@ -37,7 +37,7 @@
             font-size: 24px;
         }
 
-        /* Input Fields */
+        
         input {
             width: 100%;
             padding: 12px;
@@ -55,7 +55,7 @@
             color: rgba(255, 255, 255, 0.7);
         }
 
-        /* Buttons */
+       
         button {
             width: 100%;
             padding: 12px;
@@ -76,7 +76,7 @@
             background: #218838;
         }
 
-        /* Error & Success Messages */
+        
         .message {
             font-size: 14px;
         }
@@ -91,7 +91,7 @@
             margin-bottom: 10px;
         }
 
-        /* Link Back to Login */
+        
         a {
             text-decoration: none;
             color: #fff;
