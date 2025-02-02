@@ -3,6 +3,7 @@
 <?php
 session_start();
 include 'db.php';
+include 'sidebar.php'; // Include sidebar
 
 // Function para sa pagkuha ng count sa database
 function getCount($conn, $query) {
@@ -20,6 +21,7 @@ if (mysqli_num_rows($tableCheck) == 0) {
     die("Error: Table 'hardware' does not exist. Please check your database.");
 }
 
+// Get statistics
 $total_hardware = getCount($conn, "SELECT COUNT(*) FROM hardware");
 $available_assets = getCount($conn, "SELECT COUNT(*) FROM hardware WHERE status = 'available'");
 $pending_requests = getCount($conn, "SELECT COUNT(*) FROM maintenance_requests WHERE status = 'pending'");
@@ -38,7 +40,7 @@ $logs_result = mysqli_query($conn, "SELECT * FROM activity_logs ORDER BY created
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100">
-
+    
     <div class="max-w-6xl mx-auto p-6">
         <!-- Header -->
         <header class="text-center mb-8">
@@ -100,6 +102,9 @@ $logs_result = mysqli_query($conn, "SELECT * FROM activity_logs ORDER BY created
 </html>
 
 <?php
-mysqli_free_result($logs_result);
+// Free result set kung may laman ang logs_result
+if ($logs_result) {
+    mysqli_free_result($logs_result);
+}
 mysqli_close($conn);
 ?>
