@@ -28,7 +28,7 @@ include 'db.php';
        
         .login-box {
             background: rgba(255, 255, 255, 0.1);
-            padding: 70px;
+            padding: 75px;
             border-radius: 10px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
             text-align: center;
