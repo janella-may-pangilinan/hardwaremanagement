@@ -1,4 +1,7 @@
+
+
 <?php
+session_start();
 include 'db.php';
 include 'sidebar.php'; // Include sidebar
 
@@ -18,17 +21,14 @@ if (mysqli_num_rows($tableCheck) == 0) {
     die("Error: Table 'hardware' does not exist. Please check your database.");
 }
 
+// Get statistics
 $total_hardware = getCount($conn, "SELECT COUNT(*) FROM hardware");
 $available_assets = getCount($conn, "SELECT COUNT(*) FROM hardware WHERE status = 'available'");
 $pending_requests = getCount($conn, "SELECT COUNT(*) FROM maintenance_requests WHERE status = 'pending'");
 $critical_alerts = getCount($conn, "SELECT COUNT(*) FROM maintenance_requests WHERE status = 'critical'");
 
 // Pagkuha ng logs
-$logs_result = mysqli_query($conn, "SELECT activity_type, description, created_at FROM activity_logs ORDER BY created_at DESC LIMIT 5");
-
-if (!$logs_result) {
-    die("Error retrieving logs: " . mysqli_error($conn));
-}
+$logs_result = mysqli_query($conn, "SELECT * FROM activity_logs ORDER BY created_at DESC LIMIT 5");
 ?>
 
 <!DOCTYPE html>
@@ -69,33 +69,16 @@ if (!$logs_result) {
 
         <!-- Recent Activity Logs -->
         <div class="mt-10 bg-white shadow-md p-6 rounded-lg">
-        <div class="activity-logs">
-    <h3>Recent Activity Logs</h3>
-    <ul>
-        <?php
-       if (!$logs_result) {
-        // Handle query error
-        echo "<p class='text-red-500'>Error retrieving logs: " . mysqli_error($conn) . "</p>";
-    } else {
-        // Check if there are any logs
-        if (mysqli_num_rows($logs_result) > 0) { 
-            echo '<ul class="divide-y divide-gray-200">';
-            while ($log = mysqli_fetch_assoc($logs_result)) {
-                echo '<li class="py-2 text-gray-600">';
-                echo '<span class="font-semibold">' . htmlspecialchars($log['activity_type']) . '</span>: ';
-                echo htmlspecialchars($log['description']);
-                echo ' <span class="text-sm text-gray-400">(' . htmlspecialchars($log['created_at']) . ')</span>';
-                echo '</li>';
-            }
-            echo '</ul>';
-        } else {
-            // No logs found
-            echo "<p class='text-gray-500'>No recent activities found.</p>";
-        }
-    }
-        ?>
-    </ul>
-</div>
+            <h2 class="text-xl font-bold text-gray-700 mb-4">Recent Activity Logs</h2>
+            <ul class="divide-y divide-gray-200">
+                <?php while ($log = mysqli_fetch_assoc($logs_result)) { ?>
+                    <li class="py-2 text-gray-600">
+                        <span class="font-semibold"><?php echo htmlspecialchars($log['activity_type']); ?></span>: 
+                        <?php echo htmlspecialchars($log['description']); ?> 
+                        <span class="text-sm text-gray-400">(<?php echo htmlspecialchars($log['created_at']); ?>)</span>
+                    </li>
+                <?php } ?>
+            </ul>
         </div>
 
         <!-- Quick Actions -->
@@ -119,6 +102,9 @@ if (!$logs_result) {
 </html>
 
 <?php
-mysqli_free_result($logs_result);
+// Free result set kung may laman ang logs_result
+if ($logs_result) {
+    mysqli_free_result($logs_result);
+}
 mysqli_close($conn);
 ?>
