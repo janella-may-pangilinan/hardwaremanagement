@@ -1,50 +1,6 @@
 <?php
-// Database connection
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "hardware";
-
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-if (isset($_POST['generate_report'])) {
-    $report_type = $_POST['report_type'];
-    $date_from = $_POST['date_from'];
-    $date_to = $_POST['date_to'];
-
-    // Query based on report type
-    switch ($report_type) {
-        case 'inventory':
-            $sql = "SELECT * FROM hardware_assets WHERE purchase_date BETWEEN '$date_from' AND '$date_to'";
-            break;
-        case 'procurement':
-            $sql = "SELECT * FROM procurement WHERE order_date BETWEEN '$date_from' AND '$date_to'";
-            break;
-        case 'maintenance':
-            $sql = "SELECT * FROM maintenance WHERE repair_date BETWEEN '$date_from' AND '$date_to'";
-            break;
-        case 'depreciation':
-            $sql = "SELECT * FROM depreciation WHERE depreciation_date BETWEEN '$date_from' AND '$date_to'";
-            break;
-        default:
-            echo "Invalid report type";
-            exit;
-    }
-
-    $result = $conn->query($sql);
-    if ($result->num_rows > 0) {
-        // Placeholder for export options (Excel, PDF, CSV)
-    } else {
-        echo "No records found";
-    }
-}
-
+// Include the sidebar
+include('sidebar.php');
 ?>
 
 <!DOCTYPE html>
@@ -53,72 +9,139 @@ if (isset($_POST['generate_report'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reports & Analytics</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.0/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin-left: 250px;
+        }
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 250px;
+            height: 100%;
+            background: #333;
+            color: white;
+            padding-top: 20px;
+        }
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .sidebar ul li {
+            padding: 10px;
+            text-align: left;
+        }
+        .sidebar ul li a {
+            color: white;
+            text-decoration: none;
+        }
+        .sidebar ul li a:hover {
+            background-color: #444;
+        }
+        .content {
+            margin-left: 270px;
+            padding: 20px;
+        }
+        .report-tabs {
+            display: flex;
+            border-bottom: 2px solid #ccc;
+        }
+        .report-tabs button {
+            padding: 10px;
+            cursor: pointer;
+            border: none;
+            background-color: #f1f1f1;
+            font-size: 16px;
+            margin-right: 10px;
+            transition: background-color 0.3s ease;
+        }
+        .report-tabs button:hover {
+            background-color: #ddd;
+        }
+        .report-tabs button.active {
+            background-color: #ff4081;
+            color: white;
+        }
+        .report-content {
+            margin-top: 20px;
+        }
+        .report-section {
+            display: none;
+        }
+        .report-section.active {
+            display: block;
+        }
+    </style>
 </head>
-<body class="bg-gray-100">
+<body>
 
-<!-- Sidebar (you can include this part in a separate file like sidebar.php) -->
-<?php include 'sidebar.php'; ?>
+    <!-- Sidebar with report options -->
+    <div class="sidebar">
+        <ul>
+            <li><a href="dashboard.php"><i class="fas fa-home"></i> Dashboard</a></li>
+            <li><a href="inventory.php"><i class="fas fa-boxes"></i> Inventory</a></li>
+            <li><a href="procurement.php"><i class="fas fa-shopping-cart"></i> Procurement</a></li>
+            <li><a href="maintenance.php"><i class="fas fa-tools"></i> Maintenance</a></li>
+            <li><a href="disposal.php"><i class="fas fa-trash-alt"></i> Disposal</a></li>
+            <li><a href="reports.php"><i class="fas fa-chart-bar"></i> Reports</a></li>
+            <li><a href="index.php"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+        </ul>
+    </div>
 
-<!-- Main Content -->
-<div class="ml-64 p-6">
-    <h1 class="text-3xl font-semibold text-gray-800">Generate Reports</h1>
-    <form method="POST" class="mt-4">
-        <div class="grid grid-cols-2 gap-4">
-            <div class="col-span-2 sm:col-span-1">
-                <label class="block text-sm font-semibold" for="report_type">Select Report Type</label>
-                <select name="report_type" id="report_type" class="w-full p-2 mt-1 border rounded">
-                    <option value="inventory">Inventory Report</option>
-                    <option value="procurement">Procurement Report</option>
-                    <option value="maintenance">Maintenance Report</option>
-                    <option value="depreciation">Depreciation Report</option>
-                </select>
+    <!-- Main content area -->
+    <div class="content">
+        <h1>Reports & Analytics</h1>
+
+        <!-- Report Tabs -->
+        <div class="report-tabs">
+            <button class="active" onclick="showReport('inventory')">Inventory Reports</button>
+            <button onclick="showReport('procurement')">Procurement Reports</button>
+            <button onclick="showReport('maintenance')">Maintenance Reports</button>
+            <button onclick="showReport('depreciation')">Depreciation Reports</button>
+        </div>
+
+        <!-- Report Content -->
+        <div class="report-content">
+            <div id="inventory" class="report-section active">
+                <h2>Inventory Reports</h2>
+                <p>Summary of all hardware assets.</p>
+                <!-- Add your actual data fetching and display here -->
             </div>
-            <div class="col-span-2 sm:col-span-1">
-                <label class="block text-sm font-semibold" for="date_from">From Date</label>
-                <input type="date" name="date_from" id="date_from" class="w-full p-2 mt-1 border rounded" required>
+            <div id="procurement" class="report-section">
+                <h2>Procurement Reports</h2>
+                <p>Details of purchased and pending purchase orders.</p>
+                <!-- Add your actual data fetching and display here -->
             </div>
-            <div class="col-span-2 sm:col-span-1">
-                <label class="block text-sm font-semibold" for="date_to">To Date</label>
-                <input type="date" name="date_to" id="date_to" class="w-full p-2 mt-1 border rounded" required>
+            <div id="maintenance" class="report-section">
+                <h2>Maintenance Reports</h2>
+                <p>Record of all repairs and maintenance activities.</p>
+                <!-- Add your actual data fetching and display here -->
+            </div>
+            <div id="depreciation" class="report-section">
+                <h2>Depreciation Reports</h2>
+                <p>Financial tracking of asset depreciation.</p>
+                <!-- Add your actual data fetching and display here -->
             </div>
         </div>
-        <button type="submit" name="generate_report" class="mt-4 bg-blue-500 text-white p-2 rounded">Generate Report</button>
-    </form>
+    </div>
 
-    <br>
+    <script>
+        // Function to display the selected report
+        function showReport(reportType) {
+            // Hide all report sections
+            const sections = document.querySelectorAll('.report-section');
+            sections.forEach(section => section.classList.remove('active'));
 
-    <!-- Placeholder for display results -->
-    <?php if (isset($result)) : ?>
-        <h2 class="text-2xl font-semibold mt-4">Report Results</h2>
-        <table class="min-w-full mt-4 bg-white border border-gray-200">
-            <thead>
-                <tr>
-                    <?php
-                    $columns = $result->fetch_fields();
-                    foreach ($columns as $column) {
-                        echo "<th class='border px-4 py-2'>" . ucfirst($column->name) . "</th>";
-                    }
-                    ?>
-                </tr>
-            </thead>
-            <tbody>
-                <?php while ($row = $result->fetch_assoc()) : ?>
-                    <tr>
-                        <?php foreach ($row as $value) : ?>
-                            <td class='border px-4 py-2'><?php echo $value; ?></td>
-                        <?php endforeach; ?>
-                    </tr>
-                <?php endwhile; ?>
-            </tbody>
-        </table>
-    <?php endif; ?>
+            // Remove active class from all buttons
+            const buttons = document.querySelectorAll('.report-tabs button');
+            buttons.forEach(button => button.classList.remove('active'));
 
-</div>
+            // Show the selected report section and add active class to the clicked button
+            document.getElementById(reportType).classList.add('active');
+            document.querySelector(`[onclick="showReport('${reportType}')"]`).classList.add('active');
+        }
+    </script>
 
 </body>
 </html>
-
-<?php
-$conn->close();
-?>
