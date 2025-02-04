@@ -37,6 +37,8 @@ $logs_result = mysqli_query($conn, "SELECT * FROM activity_logs ORDER BY created
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hardware Management Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <style>
         body {
             margin: 0;
@@ -116,10 +118,47 @@ $logs_result = mysqli_query($conn, "SELECT * FROM activity_logs ORDER BY created
                 </a>
             </div>
         </div>
-    </div>
 
+        <div style="width: 50%; margin: 20px auto;">
+         <canvas id="hardwareChart"></canvas>
+        </div>
+
+    </div>
 </body>
 </html>
+<script>
+    const ctx = document.getElementById('hardwareChart').getContext('2d');
+    const hardwareChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Total Hardware', 'Available Assets', 'Pending Requests', 'Critical Alerts'],
+            datasets: [{
+                label: 'Hardware Statistics',
+                data: [
+                    <?php echo $total_hardware; ?>,
+                    <?php echo $available_assets; ?>,
+                    <?php echo $pending_requests; ?>,
+                    <?php echo $critical_alerts; ?>
+                ],
+                backgroundColor: ['#007bff', '#28a745', '#ffc107', '#dc3545'],
+                borderColor: ['#ffffff'],
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                },
+                title: {
+                    display: true,
+                    text: 'Hardware Statistics Overview'
+                }
+            }
+        }
+    });
+</script>
 
 <?php
 // Free result set kung may laman ang logs_result
