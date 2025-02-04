@@ -32,31 +32,6 @@ $result = $conn->query($sql);
             background-color: #f0f0f5;
             color: #333;
         }
-        .sidebar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 250px;
-            height: 100%;
-            background: #333;
-            color: white;
-            padding-top: 20px;
-        }
-        .sidebar ul {
-            list-style-type: none;
-            padding: 0;
-        }
-        .sidebar ul li {
-            padding: 10px;
-            text-align: left;
-        }
-        .sidebar ul li a {
-            color: white;
-            text-decoration: none;
-        }
-        .sidebar ul li a:hover {
-            background-color: #444;
-        }
         .content {
             margin-left: 270px;
             padding: 20px;

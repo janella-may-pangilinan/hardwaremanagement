@@ -44,32 +44,6 @@ $logs_result = mysqli_query($conn, "SELECT * FROM activity_logs ORDER BY created
             background: linear-gradient(to right, #eef2f3, #8e9eab);
         }
 
-        .sidebar {
-            width: 250px;
-            height: 100vh;
-            background: #2c3e50;
-            color: white;
-            padding: 20px;
-            position: fixed;
-        }
-
-        .sidebar h2 {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .sidebar a {
-            display: block;
-            color: white;
-            padding: 15px;
-            text-decoration: none;
-            border-radius: 8px;
-        }
-
-        .sidebar a:hover {
-            background: #34495e;
-        }
-
         .main-content {
             margin-left: 270px;
             padding: 20px;
