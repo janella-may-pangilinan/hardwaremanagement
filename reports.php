@@ -31,7 +31,6 @@ $result = $conn->query($sql);
             margin-left: 270px;
             background-color: #f0f0f5;
             color: #333;
-            padding: 20px;
         }
         .content {
             margin-left: 270px;

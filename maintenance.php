@@ -51,7 +51,7 @@ $requests = mysqli_query($conn, "SELECT * FROM maintenance_requests ORDER BY cre
             background-color: #f4f4f9;
             color: #333;
             margin-left: 250px;
-            padding: 0;
+            padding: 20px;
         }
 
         header {
