@@ -50,7 +50,7 @@ $requests = mysqli_query($conn, "SELECT * FROM maintenance_requests ORDER BY cre
             font-family: 'Arial', sans-serif;
             background-color: #f4f4f9;
             color: #333;
-            margin: 0;
+            margin-left: 250px;
             padding: 0;
         }
 
