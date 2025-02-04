@@ -43,27 +43,7 @@ $logs_result = mysqli_query($conn, "SELECT * FROM activity_logs ORDER BY created
             font-family: Arial, sans-serif;
             background: linear-gradient(to right, #eef2f3, #8e9eab);
         }
-         /* Sidebar Styles */
-         #sidebar {
-            width: 250px;
-            background-color: #2C3E50;
-            color: white;
-            height: 100vh;
-            padding-top: 20px;
-            position: fixed;
-        }
-
-        #sidebar a {
-            color: white;
-            text-decoration: none;
-            display: block;
-            padding: 10px;
-            font-size: 18px;
-        }
-
-        #sidebar a:hover {
-            background-color: #34495E;
-        }
+        
 
         .main-content {
             margin-left: 270px;
@@ -121,20 +101,6 @@ $logs_result = mysqli_query($conn, "SELECT * FROM activity_logs ORDER BY created
             </div>
         </div>
 
-        <!-- Recent Activity Logs -->
-        <div class="mt-10 bg-white shadow-md p-6 rounded-lg">
-            <h2 class="text-xl font-bold text-gray-700 mb-4">Recent Activity Logs</h2>
-            <ul class="divide-y divide-gray-200">
-                <?php while ($log = mysqli_fetch_assoc($logs_result)) { ?>
-                    <li class="py-2 text-gray-600">
-                        <span class="font-semibold"><?php echo htmlspecialchars($log['activity_type']); ?></span>: 
-                        <?php echo htmlspecialchars($log['description']); ?> 
-                        <span class="text-sm text-gray-400">(<?php echo htmlspecialchars($log['created_at']); ?>)</span>
-                    </li>
-                <?php } ?>
-            </ul>
-        </div>
-
         <!-- Quick Actions -->
         <div class="mt-10">
             <h2 class="text-xl font-bold text-gray-700 mb-4">Quick Actions</h2>
@@ -145,8 +111,8 @@ $logs_result = mysqli_query($conn, "SELECT * FROM activity_logs ORDER BY created
                 <a href="maintenance.php" class="bg-yellow-500 text-white text-center py-3 rounded-lg shadow-md hover:bg-yellow-600">
                     Create Repair Request
                 </a>
-                <a href="generate_reports.php" class="bg-green-500 text-white text-center py-3 rounded-lg shadow-md hover:bg-green-600">
-                    Generate Reports
+                <a href="total_hardware.php" class="bg-green-500 text-white text-center py-3 rounded-lg shadow-md hover:bg-green-600">
+                    Total Hardware
                 </a>
             </div>
         </div>
