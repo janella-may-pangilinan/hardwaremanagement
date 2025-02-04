@@ -2,9 +2,9 @@
 
 
 $servername = "localhost"; // Palitan kung ibang server gamit mo
-$username = "root"; // Default sa XAMPP
-$password = ""; // Default sa XAMPP (walang password)
-$database = "hardware"; // Siguraduhin na ito ang tamang database name
+$username = " u729491923_hardware"; // Default sa XAMPP
+$password = "Hardware@0527"; // Default sa XAMPP (walang password)
+$database = " u729491923_hardware"; // Siguraduhin na ito ang tamang database name
 
 
 // Create connection
