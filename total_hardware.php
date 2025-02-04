@@ -1,5 +1,6 @@
 <?php
 include 'db.php';
+include 'sidebar.php';
 
 // Handling delete action for hardware
 if (isset($_GET['delete_hardware'])) {
@@ -59,6 +60,11 @@ $maintenance_query = mysqli_query($conn, "SELECT * FROM maintenance_requests WHE
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Generate Reports</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body{
+            background: linear-gradient(to right, #eef2f3, #8e9eab);
+        }
+    </style>
 </head>
 <body class="bg-gray-100 p-10">
     <div class="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-md">
@@ -86,38 +92,6 @@ $maintenance_query = mysqli_query($conn, "SELECT * FROM maintenance_requests WHE
                 <?php } ?>
             </tbody>
         </table>
-    </div>
-
-    <div class="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-md mt-8">
-        <h2 class="text-2xl font-bold mb-4 text-gray-800">Maintenance Request Report</h2>
-        <table class="w-full border-collapse border border-gray-300">
-            <thead>
-                <tr class="bg-gray-200">
-                    <th class="border px-4 py-2">Hardware ID</th>
-                    <th class="border px-4 py-2">Issue</th>
-                    <th class="border px-4 py-2">Status</th>
-                    <th class="border px-4 py-2">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php while ($maintenance = mysqli_fetch_assoc($maintenance_query)) { ?>
-                <tr class="text-center">
-                    <td class="border px-4 py-2"><?php echo $maintenance['hardware_id']; ?></td>
-                    <td class="border px-4 py-2"><?php echo $maintenance['issue']; ?></td>
-                    <td class="border px-4 py-2"><?php echo ucfirst($maintenance['status']); ?></td>
-                    <td class="border px-4 py-2">
-                        <a href="?accept_request=<?php echo $maintenance['id']; ?>" class="text-green-500 hover:text-green-700">Accept</a> |
-                        <a href="?decline_request=<?php echo $maintenance['id']; ?>" class="text-red-500 hover:text-red-700">Decline</a> |
-                        <a href="?delete_request=<?php echo $maintenance['id']; ?>" class="text-gray-500 hover:text-gray-700" onclick="return confirm('Are you sure you want to delete this request?');">Delete</a>
-                    </td>
-                </tr>
-                <?php } ?>
-            </tbody>
-        </table>
-
-        <?php if (mysqli_num_rows($maintenance_query) == 0) { ?>
-            <p class="text-center text-gray-500 mt-4">No pending maintenance requests.</p>
-        <?php } ?>
     </div>
 </body>
 </html>
