@@ -1,17 +1,13 @@
 <?php
+$host = "localhost";
+$user = "root";  // Change if necessary
+$pass = "";      // Change if necessary
+$dbname = "hardware";
 
-$servername = "localhost"; // Palitan kung ibang server gamit mo
-$username = "u729491923_hardware"; // Default sa XAMPP
-$password = "Hardware@0527"; // Default sa XAMPP (walang password)
-$database = "u729491923_hardware"; // Siguraduhin na ito ang tamang database name
+$conn = new mysqli($host, $user, $pass, $dbname);
 
-
-// Create connection
-$conn = mysqli_connect($servername, $username, $password, $database);
-
-// Check connection
-if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
 }
 
 ?>
