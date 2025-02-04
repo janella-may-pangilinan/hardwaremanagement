@@ -38,39 +38,106 @@ $logs_result = mysqli_query($conn, "SELECT * FROM activity_logs ORDER BY created
     <title>Hardware Management Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-                .sidebar {
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #eef2f3, #8e9eab);
+        }
+
+        .sidebar {
             width: 250px;
-            background-color: #2d3748;
-            padding: 20px;
-            color: white;
-            position: fixed;
             height: 100vh;
+            background: #2c3e50;
+            color: white;
+            padding: 20px;
+            position: fixed;
+        }
+
+        .sidebar h2 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .sidebar a {
+            display: block;
+            color: white;
+            padding: 15px;
+            text-decoration: none;
+            border-radius: 8px;
+        }
+
+        .sidebar a:hover {
+            background: #34495e;
+        }
+
+        .main-content {
+            margin-left: 270px;
+            padding: 20px;
+        }
+
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+        }
+
+        .quick-actions button {
+            padding: 15px 20px;
+            margin: 10px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            color: white;
+            font-size: 16px;
+        }
+
+        .add-hardware { background-color: #3498db; }
+        .create-request { background-color: #f1c40f; }
+        .generate-reports { background-color: #2ecc71; }
+
+        .quick-actions button:hover {
+            opacity: 0.9;
         }
     </style>
 </head>
-<body class="bg-gray-100">
+<body class>
     <?php include 'sidebar.php'; ?>
-    <div class="max-w-6xl mx-auto p-6">
+   
+    <div class="main-content">
         <!-- Header -->
         <header class="text-center mb-8">
             <h1 class="text-3xl font-bold text-gray-800">Hardware Management System</h1>
+            <h1>Dashboard Overview</h1>
         </header>
 
         <!-- Stats Overview -->
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-            <div class="bg-white shadow-md p-6 rounded-lg text-center">
+        <div class="card-container">
+        <div class="card">
                 <h2 class="text-gray-500 text-lg">Total Hardware</h2>
                 <p class="text-3xl font-bold text-blue-500"><?php echo $total_hardware; ?></p>
             </div>
-            <div class="bg-white shadow-md p-6 rounded-lg text-center">
+            <div class="card">
                 <h2 class="text-gray-500 text-lg">Available Assets</h2>
                 <p class="text-3xl font-bold text-green-500"><?php echo $available_assets; ?></p>
             </div>
-            <div class="bg-white shadow-md p-6 rounded-lg text-center">
+            <div class="card">
                 <h2 class="text-gray-500 text-lg">Pending Requests</h2>
                 <p class="text-3xl font-bold text-yellow-500"><?php echo $pending_requests; ?></p>
             </div>
-            <div class="bg-white shadow-md p-6 rounded-lg text-center">
+            <div class="card">
                 <h2 class="text-gray-500 text-lg">Critical Alerts</h2>
                 <p class="text-3xl font-bold text-red-500"><?php echo $critical_alerts; ?></p>
             </div>
@@ -91,21 +158,14 @@ $logs_result = mysqli_query($conn, "SELECT * FROM activity_logs ORDER BY created
         </div>
 
         <!-- Quick Actions -->
-        <div class="mt-10">
-            <h2 class="text-xl font-bold text-gray-700 mb-4">Quick Actions</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <a href="add_hardware.php" class="bg-blue-500 text-white text-center py-3 rounded-lg shadow-md hover:bg-blue-600">
-                    Add New Hardware
-                </a>
-                <a href="repair_request.php" class="bg-yellow-500 text-white text-center py-3 rounded-lg shadow-md hover:bg-yellow-600">
-                    Create Repair Request
-                </a>
-                <a href="generate_reports.php" class="bg-green-500 text-white text-center py-3 rounded-lg shadow-md hover:bg-green-600">
-                    Generate Reports
-                </a>
-            </div>
+        <div class="quick-actions">
+            <button class="add-hardware">Add New Hardware</button>
+            <button class="create-request">Create Repair Request</button>
+            <button class="generate-reports">Generate Reports</button>
         </div>
     </div>
+
+
 
 </body>
 </html>
