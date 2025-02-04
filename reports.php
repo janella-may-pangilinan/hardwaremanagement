@@ -28,9 +28,10 @@ $result = $conn->query($sql);
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin-left: 250px;
+            margin-left: 270px;
             background-color: #f0f0f5;
             color: #333;
+            padding: 20px;
         }
         .content {
             margin-left: 270px;
