@@ -1,6 +1,7 @@
 
 <?php
 include 'db.php';
+include 'sidebar.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = $_POST['name'];
@@ -23,6 +24,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add New Hardware</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body{
+            background: linear-gradient(to right, #eef2f3, #8e9eab);
+        }
+    </style>
 </head>
 <body class="bg-gray-100 p-10">
     <div class="max-w-xl mx-auto bg-white p-6 rounded-lg shadow-md">

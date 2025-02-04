@@ -2,7 +2,6 @@
 
 <?php
 include 'db.php';
-include 'sidebar.php'; // Include sidebar
 
 
 // Function para sa pagkuha ng count sa database
@@ -38,30 +37,64 @@ $logs_result = mysqli_query($conn, "SELECT * FROM activity_logs ORDER BY created
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hardware Management Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #eef2f3, #8e9eab);
+        }
+
+        .main-content {
+            margin-left: 270px;
+            padding: 20px;
+        }
+
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+        }
+
+    </style>
 </head>
-<body class="bg-gray-100">
-    
-    <div class="max-w-6xl mx-auto p-6">
+<body class>
+    <?php include 'sidebar.php'; ?>
+   
+    <div class="main-content">
         <!-- Header -->
         <header class="text-center mb-8">
             <h1 class="text-3xl font-bold text-gray-800">Hardware Management System</h1>
+            <h1>Dashboard Overview</h1>
         </header>
 
         <!-- Stats Overview -->
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-            <div class="bg-white shadow-md p-6 rounded-lg text-center">
+        <div class="card-container">
+        <div class="card">
                 <h2 class="text-gray-500 text-lg">Total Hardware</h2>
                 <p class="text-3xl font-bold text-blue-500"><?php echo $total_hardware; ?></p>
             </div>
-            <div class="bg-white shadow-md p-6 rounded-lg text-center">
+            <div class="card">
                 <h2 class="text-gray-500 text-lg">Available Assets</h2>
                 <p class="text-3xl font-bold text-green-500"><?php echo $available_assets; ?></p>
             </div>
-            <div class="bg-white shadow-md p-6 rounded-lg text-center">
+            <div class="card">
                 <h2 class="text-gray-500 text-lg">Pending Requests</h2>
                 <p class="text-3xl font-bold text-yellow-500"><?php echo $pending_requests; ?></p>
             </div>
-            <div class="bg-white shadow-md p-6 rounded-lg text-center">
+            <div class="card">
                 <h2 class="text-gray-500 text-lg">Critical Alerts</h2>
                 <p class="text-3xl font-bold text-red-500"><?php echo $critical_alerts; ?></p>
             </div>
