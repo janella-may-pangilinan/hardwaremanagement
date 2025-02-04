@@ -21,10 +21,12 @@ if (mysqli_num_rows($tableCheck) == 0) {
 }
 
 // Get statistics
-$total_hardware = getCount($conn, "SELECT COUNT(*) FROM hardware");
-$available_assets = getCount($conn, "SELECT COUNT(*) FROM hardware WHERE status = 'available'");
-$pending_requests = getCount($conn, "SELECT COUNT(*) FROM maintenance_requests WHERE status = 'pending'");
-$critical_alerts = getCount($conn, "SELECT COUNT(*) FROM maintenance_requests WHERE status = 'critical'");
+$total_hardware = getCount($conn, "SELECT COUNT(*) FROM hardware_assets");
+$available_assets = getCount($conn, "SELECT COUNT(*) FROM hardware_assets WHERE status = 'Available'");
+$under_maintenance = getCount($conn, "SELECT COUNT(*) FROM hardware_assets WHERE status = 'Under Maintenance'");
+$out_service = getCount($conn, "SELECT COUNT(*) FROM hardware_assets WHERE status = 'Out of Service'");
+$for_disposal = getCount($conn, "SELECT COUNT(*) FROM hardware_assets WHERE status = 'Under Disposal'");
+
 
 // Pagkuha ng logs
 $logs_result = mysqli_query($conn, "SELECT * FROM activity_logs ORDER BY created_at DESC LIMIT 5");
@@ -37,33 +39,15 @@ $logs_result = mysqli_query($conn, "SELECT * FROM activity_logs ORDER BY created
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hardware Management Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <style>
         body {
             margin: 0;
             font-family: Arial, sans-serif;
             background: linear-gradient(to right, #eef2f3, #8e9eab);
         }
-         /* Sidebar Styles */
-         #sidebar {
-            width: 250px;
-            background-color: #2C3E50;
-            color: white;
-            height: 100vh;
-            padding-top: 20px;
-            position: fixed;
-        }
-
-        #sidebar a {
-            color: white;
-            text-decoration: none;
-            display: block;
-            padding: 10px;
-            font-size: 18px;
-        }
-
-        #sidebar a:hover {
-            background-color: #34495E;
-        }
+        
 
         .main-content {
             margin-left: 270px;
@@ -112,48 +96,77 @@ $logs_result = mysqli_query($conn, "SELECT * FROM activity_logs ORDER BY created
                 <p class="text-3xl font-bold text-green-500"><?php echo $available_assets; ?></p>
             </div>
             <div class="card">
-                <h2 class="text-gray-500 text-lg">Pending Requests</h2>
-                <p class="text-3xl font-bold text-yellow-500"><?php echo $pending_requests; ?></p>
+                <h2 class="text-gray-500 text-lg">Under Maintenance</h2>
+                <p class="text-3xl font-bold text-yellow-500"><?php echo $under_maintenance; ?></p>
             </div>
             <div class="card">
-                <h2 class="text-gray-500 text-lg">Critical Alerts</h2>
-                <p class="text-3xl font-bold text-red-500"><?php echo $critical_alerts; ?></p>
+                <h2 class="text-gray-500 text-lg">Out of Service</h2>
+                <p class="text-3xl font-bold text-red-500"><?php echo $out_service; ?></p>
+            </div>
+            <div class="card">
+                <h2 class="text-gray-500 text-lg">Under Disposal</h2>
+                <p class="text-3xl font-bold text-orange-500"><?php echo $for_disposal; ?></p>
             </div>
         </div>
 
-        <!-- Recent Activity Logs -->
-        <div class="mt-10 bg-white shadow-md p-6 rounded-lg">
-            <h2 class="text-xl font-bold text-gray-700 mb-4">Recent Activity Logs</h2>
-            <ul class="divide-y divide-gray-200">
-                <?php while ($log = mysqli_fetch_assoc($logs_result)) { ?>
-                    <li class="py-2 text-gray-600">
-                        <span class="font-semibold"><?php echo htmlspecialchars($log['activity_type']); ?></span>: 
-                        <?php echo htmlspecialchars($log['description']); ?> 
-                        <span class="text-sm text-gray-400">(<?php echo htmlspecialchars($log['created_at']); ?>)</span>
-                    </li>
-                <?php } ?>
-            </ul>
-        </div>
 
         <!-- Quick Actions -->
         <div class="mt-10">
             <h2 class="text-xl font-bold text-gray-700 mb-4">Quick Actions</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <a href="add_hardware.php" class="bg-blue-500 text-white text-center py-3 rounded-lg shadow-md hover:bg-blue-600">
+                <a href="inventory.php" class="bg-blue-500 text-white text-center py-3 rounded-lg shadow-md hover:bg-blue-600">
                     Add New Hardware
                 </a>
                 <a href="maintenance.php" class="bg-yellow-500 text-white text-center py-3 rounded-lg shadow-md hover:bg-yellow-600">
                     Create Repair Request
                 </a>
-                <a href="total_hardware.php" class="bg-green-500 text-white text-center py-3 rounded-lg shadow-md hover:bg-green-600">
+                <a href="inventory.php" class="bg-green-500 text-white text-center py-3 rounded-lg shadow-md hover:bg-green-600">
                     Total Hardware
                 </a>
             </div>
         </div>
-    </div>
 
+        <div style="width: 50%; margin: 20px auto;">
+         <canvas id="hardwareChart"></canvas>
+        </div>
+
+    </div>
 </body>
 </html>
+<script>
+    const ctx = document.getElementById('hardwareChart').getContext('2d');
+    const hardwareChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Total Hardware', 'Available Assets', 'Under Maintenance', 'Out of Service' , 'Under Disposal'],
+            datasets: [{
+                label: 'Hardware Statistics',
+                data: [
+                    <?php echo $total_hardware; ?>,
+                    <?php echo $available_assets; ?>,
+                    <?php echo $under_maintenance; ?>,
+                    <?php echo $out_service; ?>
+                    <?php echo $for_disposal; ?>
+                ],
+                backgroundColor: ['#007bff', '#28a745', '#ffc107', '#dc3545', '#FFA500'],
+                borderColor: ['#ffffff'],
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                },
+                title: {
+                    display: true,
+                    text: 'Hardware Statistics Overview'
+                }
+            }
+        }
+    });
+</script>
 
 <?php
 // Free result set kung may laman ang logs_result
