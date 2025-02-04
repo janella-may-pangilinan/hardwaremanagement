@@ -94,23 +94,6 @@ $logs_result = mysqli_query($conn, "SELECT * FROM activity_logs ORDER BY created
             transform: translateY(-10px);
         }
 
-        .quick-actions button {
-            padding: 15px 20px;
-            margin: 10px;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            color: white;
-            font-size: 16px;
-        }
-
-        .add-hardware { background-color: #3498db; }
-        .create-request { background-color: #f1c40f; }
-        .generate-reports { background-color: #2ecc71; }
-
-        .quick-actions button:hover {
-            opacity: 0.9;
-        }
     </style>
 </head>
 <body class>
@@ -158,14 +141,21 @@ $logs_result = mysqli_query($conn, "SELECT * FROM activity_logs ORDER BY created
         </div>
 
         <!-- Quick Actions -->
-        <div class="quick-actions">
-            <button class="add-hardware">Add New Hardware</button>
-            <button class="create-request">Create Repair Request</button>
-            <button class="generate-reports">Generate Reports</button>
+        <div class="mt-10">
+            <h2 class="text-xl font-bold text-gray-700 mb-4">Quick Actions</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <a href="add_hardware.php" class="bg-blue-500 text-white text-center py-3 rounded-lg shadow-md hover:bg-blue-600">
+                    Add New Hardware
+                </a>
+                <a href="repair_request.php" class="bg-yellow-500 text-white text-center py-3 rounded-lg shadow-md hover:bg-yellow-600">
+                    Create Repair Request
+                </a>
+                <a href="generate_reports.php" class="bg-green-500 text-white text-center py-3 rounded-lg shadow-md hover:bg-green-600">
+                    Generate Reports
+                </a>
+            </div>
         </div>
     </div>
-
-
 
 </body>
 </html>
