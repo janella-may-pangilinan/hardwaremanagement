@@ -43,6 +43,27 @@ $logs_result = mysqli_query($conn, "SELECT * FROM activity_logs ORDER BY created
             font-family: Arial, sans-serif;
             background: linear-gradient(to right, #eef2f3, #8e9eab);
         }
+         /* Sidebar Styles */
+         #sidebar {
+            width: 250px;
+            background-color: #2C3E50;
+            color: white;
+            height: 100vh;
+            padding-top: 20px;
+            position: fixed;
+        }
+
+        #sidebar a {
+            color: white;
+            text-decoration: none;
+            display: block;
+            padding: 10px;
+            font-size: 18px;
+        }
+
+        #sidebar a:hover {
+            background-color: #34495E;
+        }
 
         .main-content {
             margin-left: 270px;
