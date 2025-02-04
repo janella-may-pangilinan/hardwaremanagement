@@ -1,16 +1,5 @@
 <?php
-$host = 'localhost';
-$username = 'root'; 
-$password = ''; 
-$dbname = 'hardware'; 
-
-// Create connection
-$conn = new mysqli($host, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+include 'db.php';
 
 // Query to fetch data from hardware_assets table
 $sql = "SELECT asset_name, serial_number, model, brand, status, location, assigned_user, warranty_info FROM hardware_assets";
