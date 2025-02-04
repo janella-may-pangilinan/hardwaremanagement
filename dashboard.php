@@ -121,20 +121,6 @@ $logs_result = mysqli_query($conn, "SELECT * FROM activity_logs ORDER BY created
             </div>
         </div>
 
-        <!-- Recent Activity Logs -->
-        <div class="mt-10 bg-white shadow-md p-6 rounded-lg">
-            <h2 class="text-xl font-bold text-gray-700 mb-4">Recent Activity Logs</h2>
-            <ul class="divide-y divide-gray-200">
-                <?php while ($log = mysqli_fetch_assoc($logs_result)) { ?>
-                    <li class="py-2 text-gray-600">
-                        <span class="font-semibold"><?php echo htmlspecialchars($log['activity_type']); ?></span>: 
-                        <?php echo htmlspecialchars($log['description']); ?> 
-                        <span class="text-sm text-gray-400">(<?php echo htmlspecialchars($log['created_at']); ?>)</span>
-                    </li>
-                <?php } ?>
-            </ul>
-        </div>
-
         <!-- Quick Actions -->
         <div class="mt-10">
             <h2 class="text-xl font-bold text-gray-700 mb-4">Quick Actions</h2>
