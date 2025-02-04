@@ -173,4 +173,5 @@ $requests = mysqli_query($conn, "SELECT * FROM maintenance_requests ORDER BY cre
 </body>
 </html>
 
+
 <?php mysqli_close($conn); ?>
