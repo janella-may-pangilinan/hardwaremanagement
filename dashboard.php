@@ -145,8 +145,8 @@ $logs_result = mysqli_query($conn, "SELECT * FROM activity_logs ORDER BY created
                 <a href="maintenance.php" class="bg-yellow-500 text-white text-center py-3 rounded-lg shadow-md hover:bg-yellow-600">
                     Create Repair Request
                 </a>
-                <a href="generate_reports.php" class="bg-green-500 text-white text-center py-3 rounded-lg shadow-md hover:bg-green-600">
-                    Generate Reports
+                <a href="total_hardware.php" class="bg-green-500 text-white text-center py-3 rounded-lg shadow-md hover:bg-green-600">
+                    Total Hardware
                 </a>
             </div>
         </div>
