@@ -17,7 +17,7 @@ $sql_inventory = "SELECT asset_name, serial_number, model, brand, status, locati
 $result_inventory = $conn->query($sql_inventory);
 
 // Query for Maintenance Reports
-$sql_maintenance = "SELECT hardware_id, issue, status, technician FROM hardware";
+$sql_maintenance = "SELECT hardware_id, issue, status, technician FROM hardware_assets";
 $result_maintenance = $conn->query($sql_maintenance);
 ?>
 
