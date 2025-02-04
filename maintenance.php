@@ -9,13 +9,29 @@ if (isset($_POST['submit_request'])) {
     mysqli_query($conn, $insert_query);
 }
 
-// Handling edit request (UPDATE)
-if (isset($_POST['edit_request'])) {
+// Handling technician assignment (UPDATE)
+if (isset($_POST['assign_technician'])) {
     $request_id = $_POST['request_id'];
-    $hardware_id = $_POST['hardware_id'];
-    $issue = $_POST['issue'];
-    $update_query = "UPDATE maintenance_requests SET hardware_id = '$hardware_id', issue = '$issue' WHERE id = '$request_id'";
+    $technician = $_POST['technician'];
+    $update_query = "UPDATE maintenance_requests SET technician = '$technician', status = 'In Progress' WHERE id = '$request_id'";
     mysqli_query($conn, $update_query);
+}
+
+// Handling status updates (UPDATE)
+if (isset($_GET['complete'])) {
+    $request_id = $_GET['complete'];
+    mysqli_query($conn, "UPDATE maintenance_requests SET status = 'Completed' WHERE id = '$request_id'");
+}
+
+if (isset($_GET['reject'])) {
+    $request_id = $_GET['reject'];
+    mysqli_query($conn, "UPDATE maintenance_requests SET status = 'Rejected' WHERE id = '$request_id'");
+}
+
+// Handling delete request (DELETE)
+if (isset($_GET['delete'])) {
+    $request_id = $_GET['delete'];
+    mysqli_query($conn, "DELETE FROM maintenance_requests WHERE id = '$request_id'");
 }
 
 // Fetching requests (READ)
@@ -37,12 +53,27 @@ $requests = mysqli_query($conn, "SELECT * FROM maintenance_requests ORDER BY cre
     <div class="container mx-auto p-6 ml-64">
         <h1 class="text-2xl font-bold text-gray-700 mb-4">Maintenance & Repair</h1>
         
+        <button onclick="toggleAddForm()" class="bg-teal-500 text-white px-4 py-2 rounded">Submit Repair Request</button>
+        
+        <div id="addRequestForm" class="hidden mt-4 bg-white p-4 rounded shadow">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">New Repair Request</h2>
+            <form method="POST">
+                <label class="block text-sm font-semibold" for="hardware_id">Hardware ID</label>
+                <input type="text" name="hardware_id" id="hardware_id" class="w-full border rounded p-2 mb-2" required>
+                <label class="block text-sm font-semibold" for="issue">Issue</label>
+                <input type="text" name="issue" id="issue" class="w-full border rounded p-2 mb-2" required>
+                <button type="submit" name="submit_request" class="bg-teal-500 text-white px-4 py-2 rounded">Submit</button>
+            </form>
+        </div>
+
         <div class="mt-8">
             <table class="w-full bg-white shadow-md rounded border">
                 <thead>
                     <tr class="bg-gray-200">
                         <th class="p-3">Hardware ID</th>
                         <th class="p-3">Issue</th>
+                        <th class="p-3">Status</th>
+                        <th class="p-3">Technician</th>
                         <th class="p-3">Actions</th>
                     </tr>
                 </thead>
@@ -51,8 +82,19 @@ $requests = mysqli_query($conn, "SELECT * FROM maintenance_requests ORDER BY cre
                         <tr class="border-b">
                             <td class="p-3"><?php echo $row['hardware_id']; ?></td>
                             <td class="p-3"><?php echo $row['issue']; ?></td>
+                            <td class="p-3"><?php echo $row['status']; ?></td>
+                            <td class="p-3"><?php echo $row['technician'] ?? 'Not Assigned'; ?></td>
                             <td class="p-3">
-                                <button onclick="editRequest(<?php echo $row['id']; ?>, '<?php echo $row['hardware_id']; ?>', '<?php echo $row['issue']; ?>')" class="bg-yellow-500 text-white px-2 py-1 rounded">Edit</button>
+                                <?php if ($row['status'] == 'Pending') { ?>
+                                    <form method="post" class="inline-block">
+                                        <input type="hidden" name="request_id" value="<?php echo $row['id']; ?>">
+                                        <input type="text" name="technician" placeholder="Assign Technician" class="border rounded p-2" required>
+                                        <button type="submit" name="assign_technician" class="bg-blue-500 text-white px-2 py-1 rounded">Assign</button>
+                                    </form>
+                                <?php } ?>
+                                <a href="?complete=<?php echo $row['id']; ?>" class="bg-green-500 text-white px-2 py-1 rounded">Complete</a>
+                                <a href="?reject=<?php echo $row['id']; ?>" class="bg-red-500 text-white px-2 py-1 rounded">Reject</a>
+                                <a href="?delete=<?php echo $row['id']; ?>" onclick="return confirm('Are you sure?');" class="bg-gray-500 text-white px-2 py-1 rounded">Delete</a>
                             </td>
                         </tr>
                     <?php } ?>
@@ -61,31 +103,10 @@ $requests = mysqli_query($conn, "SELECT * FROM maintenance_requests ORDER BY cre
         </div>
     </div>
 
-    <div id="editForm" class="hidden fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
-        <div class="bg-white p-6 rounded shadow-lg">
-            <h2 class="text-xl font-semibold mb-4">Edit Repair Request</h2>
-            <form method="POST">
-                <input type="hidden" name="request_id" id="edit_request_id">
-                <label class="block text-sm font-semibold">Hardware ID</label>
-                <input type="text" name="hardware_id" id="edit_hardware_id" class="w-full border rounded p-2 mb-2" required>
-                <label class="block text-sm font-semibold">Issue</label>
-                <input type="text" name="issue" id="edit_issue" class="w-full border rounded p-2 mb-2" required>
-                <button type="submit" name="edit_request" class="bg-blue-500 text-white px-4 py-2 rounded">Save Changes</button>
-                <button type="button" onclick="closeEditForm()" class="bg-gray-500 text-white px-4 py-2 rounded">Cancel</button>
-            </form>
-        </div>
-    </div>
-
     <script>
-        function editRequest(id, hardware_id, issue) {
-            document.getElementById('edit_request_id').value = id;
-            document.getElementById('edit_hardware_id').value = hardware_id;
-            document.getElementById('edit_issue').value = issue;
-            document.getElementById('editForm').classList.remove('hidden');
-        }
-
-        function closeEditForm() {
-            document.getElementById('editForm').classList.add('hidden');
+        function toggleAddForm() {
+            var form = document.getElementById('addRequestForm');
+            form.classList.toggle('hidden');
         }
     </script>
 </body>
