@@ -1,5 +1,6 @@
 <?php
 include 'db.php';
+include 'sidebar.php';
 
 // Handling delete action for hardware
 if (isset($_GET['delete_hardware'])) {
@@ -59,6 +60,11 @@ $maintenance_query = mysqli_query($conn, "SELECT * FROM maintenance_requests WHE
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Generate Reports</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body{
+            background: linear-gradient(to right, #eef2f3, #8e9eab);
+        }
+    </style>
 </head>
 <body class="bg-gray-100 p-10">
     <div class="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-md">
