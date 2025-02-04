@@ -114,7 +114,7 @@ $logs_result = mysqli_query($conn, "SELECT * FROM activity_logs ORDER BY created
         <div class="mt-10">
             <h2 class="text-xl font-bold text-gray-700 mb-4">Quick Actions</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <a href="hardware_assets.php" class="bg-blue-500 text-white text-center py-3 rounded-lg shadow-md hover:bg-blue-600">
+                <a href="inventory.php" class="bg-blue-500 text-white text-center py-3 rounded-lg shadow-md hover:bg-blue-600">
                     Add New Hardware
                 </a>
                 <a href="maintenance.php" class="bg-yellow-500 text-white text-center py-3 rounded-lg shadow-md hover:bg-yellow-600">
