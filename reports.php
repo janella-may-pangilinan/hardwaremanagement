@@ -12,12 +12,12 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Query for Inventory Reports
+// Query to fetch data from hardware_assets table for Inventory Reports
 $sql_inventory = "SELECT asset_name, serial_number, model, brand, status, location, assigned_user, warranty_info FROM hardware_assets";
 $result_inventory = $conn->query($sql_inventory);
 
-// Query for Maintenance Reports
-$sql_maintenance = "SELECT hardware_id, issue, status, technician FROM hardware_assets";
+// Query to fetch data from hardware table for Maintenance Reports
+$sql_maintenance = "SELECT hardware_id, issue, status, technician FROM hardware";
 $result_maintenance = $conn->query($sql_maintenance);
 ?>
 
@@ -35,7 +35,38 @@ $result_maintenance = $conn->query($sql_maintenance);
             background-color: #f0f0f5;
             color: #333;
         }
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 250px;
+            height: 100%;
+            background: #333;
+            color: white;
+            padding-top: 20px;
+        }
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .sidebar ul li {
+            padding: 10px;
+            text-align: left;
+        }
+        .sidebar ul li a {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+        .sidebar ul li a i {
+            margin-right: 10px;
+        }
+        .sidebar ul li a:hover {
+            background-color: #444;
+        }
         .content {
+            margin-left: 270px;
             padding: 20px;
         }
         .report-tabs {
@@ -102,16 +133,17 @@ $result_maintenance = $conn->query($sql_maintenance);
     </style>
 </head>
 <body>
+<?php include 'sidebar.php'; ?>
 
 <div class="content">
     <h1>Reports & Analytics</h1>
 
     <!-- Report Tabs -->
     <div class="report-tabs">
-        <button class="tab-btn active" onclick="showReport('inventory')">Inventory Reports</button>
-        <button class="tab-btn" onclick="showReport('procurement')">Procurement Reports</button>
-        <button class="tab-btn" onclick="showReport('maintenance')">Maintenance Reports</button>
-        <button class="tab-btn" onclick="showReport('depreciation')">Depreciation Reports</button>
+        <button class="active" onclick="showReport('inventory')">Inventory Reports</button>
+        <button onclick="showReport('procurement')">Procurement Reports</button>
+        <button onclick="showReport('maintenance')">Maintenance Reports</button>
+        <button onclick="showReport('depreciation')">Depreciation Reports</button>
     </div>
 
     <!-- Report Content -->
@@ -186,37 +218,23 @@ $result_maintenance = $conn->query($sql_maintenance);
             </table>
         </div>
 
-        <!-- Procurement Reports Placeholder -->
+        <!-- Other Reports Placeholder -->
         <div id="procurement" class="report-section">
             <h2>Procurement Reports</h2>
-            <p>Details of purchased and pending purchase orders.</p>
         </div>
-
-        <!-- Depreciation Reports Placeholder -->
         <div id="depreciation" class="report-section">
             <h2>Depreciation Reports</h2>
-            <p>Financial tracking of asset depreciation.</p>
         </div>
     </div>
 </div>
 
 <script>
     function showReport(reportType) {
-        // Hide all report sections
-        document.querySelectorAll('.report-section').forEach(section => {
-            section.classList.remove('active');
-        });
-
-        // Remove active class from all buttons
-        document.querySelectorAll('.tab-btn').forEach(button => {
-            button.classList.remove('active');
-        });
-
-        // Show the selected report section
+        document.querySelectorAll('.report-section').forEach(section => section.classList.remove('active'));
+        document.querySelectorAll('.report-tabs button').forEach(button => button.classList.remove('active'));
+        
         document.getElementById(reportType).classList.add('active');
-
-        // Set the clicked button as active
-        event.currentTarget.classList.add('active');
+        document.querySelector(`[onclick="showReport('${reportType}')"]`).classList.add('active');
     }
 </script>
 
