@@ -1,17 +1,7 @@
 <?php
 // inventory.php
 
-// Database connection
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "hardware";
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+include 'db.php';
 
 // Add new hardware asset
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_asset'])) {

@@ -158,6 +158,7 @@ $requests = mysqli_query($conn, "SELECT * FROM maintenance_requests ORDER BY cre
     </style>
 </head>
 <body>
+<?php include 'sidebar.php'; ?>
     <header>
         <h1>Maintenance & Repair Management</h1>
     </header>

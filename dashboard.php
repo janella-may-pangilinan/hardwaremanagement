@@ -2,7 +2,6 @@
 
 <?php
 include 'db.php';
-include 'sidebar.php'; // Include sidebar
 
 
 // Function para sa pagkuha ng count sa database
@@ -38,9 +37,19 @@ $logs_result = mysqli_query($conn, "SELECT * FROM activity_logs ORDER BY created
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hardware Management Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+                .sidebar {
+            width: 250px;
+            background-color: #2d3748;
+            padding: 20px;
+            color: white;
+            position: fixed;
+            height: 100vh;
+        }
+    </style>
 </head>
 <body class="bg-gray-100">
-    
+    <?php include 'sidebar.php'; ?>
     <div class="max-w-6xl mx-auto p-6">
         <!-- Header -->
         <header class="text-center mb-8">
