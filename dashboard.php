@@ -121,10 +121,10 @@ $logs_result = mysqli_query($conn, "SELECT * FROM activity_logs ORDER BY created
                 <a href="add_hardware.php" class="bg-blue-500 text-white text-center py-3 rounded-lg shadow-md hover:bg-blue-600">
                     Add New Hardware
                 </a>
-                <a href="repair_request.php" class="bg-yellow-500 text-white text-center py-3 rounded-lg shadow-md hover:bg-yellow-600">
+                <a href="repair_list.php" class="bg-yellow-500 text-white text-center py-3 rounded-lg shadow-md hover:bg-yellow-600">
                     Create Repair Request
                 </a>
-                <a href="generate_reports.php" class="bg-green-500 text-white text-center py-3 rounded-lg shadow-md hover:bg-green-600">
+                <a href="reports.php" class="bg-green-500 text-white text-center py-3 rounded-lg shadow-md hover:bg-green-600">
                     Generate Reports
                 </a>
             </div>
