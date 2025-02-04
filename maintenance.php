@@ -48,7 +48,7 @@ $requests = mysqli_query($conn, "SELECT * FROM maintenance_requests ORDER BY cre
         /* General Styles */
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #f4f4f9;
+            background: linear-gradient(to right, #eef2f3, #8e9eab);
             color: #333;
             margin-left: 250px;
             padding: 20px;

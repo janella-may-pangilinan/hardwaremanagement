@@ -29,7 +29,7 @@ $result = $conn->query($sql);
         body {
             font-family: Arial, sans-serif;
             margin-left: 270px;
-            background-color: #f0f0f5;
+            background: linear-gradient(to right, #eef2f3, #8e9eab);
             color: #333;
         }
         .content {

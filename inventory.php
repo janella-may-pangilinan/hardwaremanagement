@@ -59,7 +59,7 @@ $result = $conn->query($sql);
     <title>Inventory Management</title>
     <style>
         body {
-            background-color: #f7fafc;
+            background: linear-gradient(to right, #eef2f3, #8e9eab);
             font-family: 'Arial', sans-serif;
             display: flex;
         }
