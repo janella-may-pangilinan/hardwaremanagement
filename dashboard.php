@@ -125,48 +125,51 @@ $logs_result = mysqli_query($conn, "SELECT * FROM activity_logs ORDER BY created
                 </a>
             </div>
         </div>
-
-        <div style="width: 50%; margin: 20px auto;">
-         <canvas id="hardwareChart"></canvas>
+        <div class="chart-container" style="width: 50%; margin: auto;">
+            <canvas id="hardwarePieChart"></canvas>
         </div>
-
+    </div>
     </div>
 </body>
 </html>
 <script>
-    const ctx = document.getElementById('hardwareChart').getContext('2d');
-    const hardwareChart = new Chart(ctx, {
-        type: 'doughnut',
-        data: {
-            labels: ['Total Hardware', 'Available Assets', 'Under Maintenance', 'Out of Service' , 'Under Disposal'],
-            datasets: [{
-                label: 'Hardware Statistics',
-                data: [
-                    <?php echo $total_hardware; ?>,
-                    <?php echo $available_assets; ?>,
-                    <?php echo $under_maintenance; ?>,
-                    <?php echo $out_service; ?>
-                    <?php echo $for_disposal; ?>
-                ],
-                backgroundColor: ['#007bff', '#28a745', '#ffc107', '#dc3545', '#ffa500'],
-                borderColor: ['#ffffff'],
-                borderWidth: 2
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: {
-                    position: 'bottom',
-                },
-                title: {
-                    display: true,
-                    text: 'Hardware Statistics Overview'
+        const ctx = document.getElementById('hardwarePieChart').getContext('2d');
+        const hardwarePieChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: ['Available Assets', 'Under Maintenance', 'Out of Service', 'Under Disposal'],
+                datasets: [{
+                    label: 'Hardware Status',
+                    data: [2, 1, 1, 1], // Corresponding data
+                    backgroundColor: [
+                        'rgba(75, 192, 192, 0.7)',   // Available Assets
+                        'rgba(255, 205, 86, 0.7)',   // Under Maintenance
+                        'rgba(255, 99, 132, 0.7)',   // Out of Service
+                        'rgba(153, 102, 255, 0.7)'   // Under Disposal
+                    ],
+                    borderColor: [
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(255, 205, 86, 1)',
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(153, 102, 255, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    },
+                    title: {
+                        display: true,
+                        text: 'Hardware Status Distribution'
+                    }
                 }
             }
-        }
-    });
-</script>
+        });
+    </script>
 
 <?php
 // Free result set kung may laman ang logs_result
