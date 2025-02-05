@@ -129,7 +129,7 @@ if (isset($_GET['edit_id'])) {
             border-radius: 8px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
             max-width: 1000px;
-            margin: 0 auto;
+            margin-left: 250px;
         }
 
         form label {
