@@ -23,7 +23,7 @@
     
     <?php include 'sidebar.php'; ?>
     
-    <div class="flex justify-center w-full mt-10">
+    <div class="container flex justify-center w-full mt-10">
         <div class="bg-white p-8 rounded-lg shadow-md max-w-lg w-full">
             <h1 class="text-2xl font-bold text-gray-700 mb-6 text-center">Add Vendor</h1>
             
