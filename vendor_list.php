@@ -15,7 +15,7 @@ $result = mysqli_query($conn, $query);
     <style>
         body {
             font-family: 'Roboto', sans-serif;
-            background-color: #f4f7fa;
+            background: linear-gradient(to right, #eef2f3, #8e9eab);
             margin: 0;
             padding: 0;
             display: flex;
