@@ -28,9 +28,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <title>Add Vendor</title>
 </head>
 <style>
-    background: linear-gradient(to right, #eef2f3, #8e9eab);
+    body 
+    {
+        background: linear-gradient(to right, #eef2f3, #8e9eab);
+    }
 </style> 
-<body class="bg-gray-100 flex">
+<body>
     
     <?php include 'sidebar.php'; ?>
     
