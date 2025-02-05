@@ -125,29 +125,28 @@ $logs_result = mysqli_query($conn, "SELECT * FROM activity_logs ORDER BY created
                 </a>
             </div>
         </div>
+        <!-- Bar Chart Section -->
         <div class="chart-container" style="width: 50%; margin: auto;">
-            <canvas id="hardwarePieChart"></canvas>
+            <canvas id="hardwareBarChart"></canvas>
         </div>
-    </div>
-    </div>
-</body>
-</html>
-<script>
-        const ctx = document.getElementById('hardwarePieChart').getContext('2d');
-        const hardwarePieChart = new Chart(ctx, {
-            type: 'pie',
+        <script>
+        const ctx = document.getElementById('hardwareBarChart').getContext('2d');
+        const hardwareBarChart = new Chart(ctx, {
+            type: 'bar',
             data: {
-                labels: ['Available Assets', 'Under Maintenance', 'Out of Service', 'Under Disposal'],
+                labels: ['Total Hardware', 'Available Assets', 'Under Maintenance', 'Out of Service', 'Under Disposal'],
                 datasets: [{
                     label: 'Hardware Status',
-                    data: [2, 1, 1, 1], // Corresponding data
+                    data: [5, 2, 1, 1, 1], // Corresponding data
                     backgroundColor: [
+                        'rgba(54, 162, 235, 0.7)',   // Total Hardware
                         'rgba(75, 192, 192, 0.7)',   // Available Assets
                         'rgba(255, 205, 86, 0.7)',   // Under Maintenance
                         'rgba(255, 99, 132, 0.7)',   // Out of Service
                         'rgba(153, 102, 255, 0.7)'   // Under Disposal
                     ],
                     borderColor: [
+                        'rgba(54, 162, 235, 1)',
                         'rgba(75, 192, 192, 1)',
                         'rgba(255, 205, 86, 1)',
                         'rgba(255, 99, 132, 1)',
@@ -158,18 +157,28 @@ $logs_result = mysqli_query($conn, "SELECT * FROM activity_logs ORDER BY created
             },
             options: {
                 responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
                 plugins: {
                     legend: {
-                        position: 'bottom'
+                        display: false
                     },
                     title: {
                         display: true,
-                        text: 'Hardware Status Distribution'
+                        text: 'Hardware Status Overview'
                     }
                 }
             }
         });
     </script>
+    </div>
+    </div>
+    </div>
+</body>
+</html>
 
 <?php
 // Free result set kung may laman ang logs_result
