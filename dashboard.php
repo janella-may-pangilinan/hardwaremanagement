@@ -137,7 +137,13 @@ $logs_result = mysqli_query($conn, "SELECT * FROM activity_logs ORDER BY created
                 labels: ['Total Hardware', 'Available Assets', 'Under Maintenance', 'Out of Service', 'Under Disposal'],
                 datasets: [{
                     label: 'Hardware Status',
-                    data: [5, 2, 1, 1, 1], // Corresponding data
+                    data: [
+                        <?php echo $total_hardware; ?>,
+                        <?php echo $available_assets; ?>,
+                        <?php echo $under_maintenance; ?>,
+                        <?php echo $out_service; ?>
+                        <?php echo $for_disposal; ?>
+                    ], // Corresponding data
                     backgroundColor: [
                         'rgba(54, 162, 235, 0.7)',   // Total Hardware
                         'rgba(75, 192, 192, 0.7)',   // Available Assets
