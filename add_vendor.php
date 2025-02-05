@@ -27,6 +27,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <script src="https://cdn.tailwindcss.com"></script>
     <title>Add Vendor</title>
 </head>
+<style>
+    background: linear-gradient(to right, #eef2f3, #8e9eab);
+</style> 
 <body class="bg-gray-100 flex">
     
     <?php include 'sidebar.php'; ?>
