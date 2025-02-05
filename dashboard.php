@@ -125,48 +125,64 @@ $logs_result = mysqli_query($conn, "SELECT * FROM activity_logs ORDER BY created
                 </a>
             </div>
         </div>
-
-        <div style="width: 50%; margin: 20px auto;">
-         <canvas id="hardwareChart"></canvas>
+        <!-- Bar Chart Section -->
+        <div class="chart-container" style="width: 50%; margin: auto;">
+            <canvas id="hardwareBarChart"></canvas>
         </div>
+        <script>
+    const hardwareData = {
+        labels: ['Total Hardware', 'Available Assets', 'Under Maintenance', 'Out of Service', 'Under Disposal'],
+        datasets: [{
+            label: 'Hardware Status',
+            data: [
+                <?php echo $total_hardware; ?>,
+                <?php echo $available_assets; ?>,
+                <?php echo $under_maintenance; ?>,
+                <?php echo $out_service; ?>,
+                <?php echo $for_disposal; ?>
+            ],
+            backgroundColor: [
+                'rgba(54, 162, 235, 0.7)',
+                'rgba(75, 192, 192, 0.7)',
+                'rgba(255, 205, 86, 0.7)',
+                'rgba(255, 99, 132, 0.7)',
+                'rgba(153, 102, 255, 0.7)'
+            ],
+            borderColor: [
+                'rgba(54, 162, 235, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(255, 205, 86, 1)',
+                'rgba(255, 99, 132, 1)',
+                'rgba(153, 102, 255, 1)'
+            ],
+            borderWidth: 1
+        }]
+    };
 
-    </div>
-</body>
-</html>
-<script>
-    const ctx = document.getElementById('hardwareChart').getContext('2d');
-    const hardwareChart = new Chart(ctx, {
-        type: 'doughnut',
-        data: {
-            labels: ['Total Hardware', 'Available Assets', 'Under Maintenance', 'Out of Service' , 'Under Disposal'],
-            datasets: [{
-                label: 'Hardware Statistics',
-                data: [
-                    <?php echo $total_hardware; ?>,
-                    <?php echo $available_assets; ?>,
-                    <?php echo $under_maintenance; ?>,
-                    <?php echo $out_service; ?>
-                    <?php echo $for_disposal; ?>
-                ],
-                backgroundColor: ['#007bff', '#28a745', '#ffc107', '#dc3545', '#ffa500'],
-                borderColor: ['#ffffff'],
-                borderWidth: 2
-            }]
-        },
+    const ctx = document.getElementById('hardwareBarChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'bar',
+        data: hardwareData,
         options: {
             responsive: true,
-            plugins: {
-                legend: {
-                    position: 'bottom',
-                },
-                title: {
-                    display: true,
-                    text: 'Hardware Statistics Overview'
+            scales: {
+                y: {
+                    beginAtZero: true
                 }
+            },
+            plugins: {
+                legend: { display: false },
+                title: { display: true, text: 'Hardware Status Overview' }
             }
         }
     });
 </script>
+
+    </div>
+    </div>
+    </div>
+</body>
+</html>
 
 <?php
 // Free result set kung may laman ang logs_result
