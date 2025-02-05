@@ -5,7 +5,7 @@ include 'db.php';
 $technicians = mysqli_query($conn, "SELECT id, name FROM technicians");
 
 // Handling repair request submission (CREATE)
-if (isset($_POST['submit_request'])) {
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit_request'])) {
     $hardware_id = $_POST['hardware_id'];
     $issue = $_POST['issue'];
     $technician = $_POST['technician'];
@@ -14,37 +14,34 @@ if (isset($_POST['submit_request'])) {
                      VALUES ('$hardware_id', '$issue', '$technician', 'Pending')";
     
     if (!mysqli_query($conn, $insert_query)) {
-        die("Error: " . mysqli_error($conn)); // Error checking
+        echo "<script>alert('Error: " . mysqli_error($conn) . "');</script>";
     }
 }
 
 // Handling technician assignment (UPDATE)
-if (isset($_POST['assign_technician'])) {
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['assign_technician'])) {
     $request_id = $_POST['request_id'];
     $technician = $_POST['technician'];
     
     $update_query = "UPDATE maintenance_requests SET technician = '$technician', status = 'In Progress' WHERE id = '$request_id'";
     
     if (!mysqli_query($conn, $update_query)) {
-        die("Error: " . mysqli_error($conn));
+        echo "<script>alert('Error: " . mysqli_error($conn) . "');</script>";
     }
 }
 
 // Handling status updates (UPDATE)
 if (isset($_GET['complete'])) {
-    $request_id = $_GET['complete'];
-    mysqli_query($conn, "UPDATE maintenance_requests SET status = 'Completed' WHERE id = '$request_id'");
+    mysqli_query($conn, "UPDATE maintenance_requests SET status = 'Completed' WHERE id = '{$_GET['complete']}'");
 }
 
 if (isset($_GET['reject'])) {
-    $request_id = $_GET['reject'];
-    mysqli_query($conn, "UPDATE maintenance_requests SET status = 'Rejected' WHERE id = '$request_id'");
+    mysqli_query($conn, "UPDATE maintenance_requests SET status = 'Rejected' WHERE id = '{$_GET['reject']}'");
 }
 
 // Handling delete request (DELETE)
 if (isset($_GET['delete'])) {
-    $request_id = $_GET['delete'];
-    mysqli_query($conn, "DELETE FROM maintenance_requests WHERE id = '$request_id'");
+    mysqli_query($conn, "DELETE FROM maintenance_requests WHERE id = '{$_GET['delete']}'");
 }
 
 // Fetching requests (READ)
@@ -58,17 +55,37 @@ $requests = mysqli_query($conn, "SELECT * FROM maintenance_requests ORDER BY cre
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
     <title>Maintenance & Repairs</title>
+    <style>
+        body {
+            background: linear-gradient(to right, #eef2f3, #8e9eab);
+            font-family: 'Arial', sans-serif;
+            display: flex;
+        }
+        .container { max-width: 1200px; margin: 0 auto; flex-grow: 1; }
+        .heading { font-size: 2rem; font-weight: bold; color: #2d3748; }
+        .form-input, .form-submit { border-radius: 8px; padding: 10px; width: 100%; }
+        .form-submit { background-color: #38b2ac; color: white; cursor: pointer; }
+        .form-submit:hover { background-color: #319795; }
+        .table { width: 100%; border-collapse: collapse; background-color: white; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .table th, .table td { padding: 15px; text-align: left; border-bottom: 1px solid #e2e8f0; }
+        .table th { background-color: #edf2f7; font-weight: bold; }
+        .table tbody tr:hover { background-color: #f7fafc; }
+        .action-links a { margin-right: 10px; font-weight: 600; }
+    </style>
+    <script>
+        function toggleForm() { document.getElementById('requestForm').classList.toggle('hidden'); }
+    </script>
 </head>
 <body>
 
 <?php include 'sidebar.php'; ?>
 
 <div class="container p-6 ml-64">
-    <h1 class="text-2xl font-bold text-gray-800">Maintenance & Repair Requests</h1>
-    
+    <h1 class="heading">Maintenance & Repair Requests</h1>
     <button onclick="toggleForm()" class="form-submit">Submit New Repair Request</button>
     
     <div id="requestForm" class="mt-4 hidden">
+        <h2 class="text-xl font-semibold">Submit Repair Request</h2>
         <form method="post">
             <label>Hardware ID</label>
             <input type="text" name="hardware_id" class="form-input" required>
@@ -111,7 +128,7 @@ $requests = mysqli_query($conn, "SELECT * FROM maintenance_requests ORDER BY cre
                     </td>
                     <td>
                         <?php if ($row['status'] == 'Pending') { ?>
-                            <form method="post" style="display:inline-block;">
+                            <form method="post" class="inline-block">
                                 <input type="hidden" name="request_id" value="<?php echo $row['id']; ?>">
                                 <select name="technician" class="form-input" required>
                                     <option value="">Assign Technician</option>
@@ -134,13 +151,6 @@ $requests = mysqli_query($conn, "SELECT * FROM maintenance_requests ORDER BY cre
         </tbody>
     </table>
 </div>
-
-<script>
-    function toggleForm() {
-        var form = document.getElementById('requestForm');
-        form.classList.toggle('hidden');
-    }
-</script>
 
 </body>
 </html>
