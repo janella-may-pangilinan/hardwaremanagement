@@ -111,7 +111,6 @@
         <li><a href="maintenance.php"><i class=""></i> Maintenance</a></li>
         <li><a href="disposal.php"><i class=""></i> Disposal</a></li>
         <li><a href="add_warranty.php"><i class=""></i> Warranty</a></li>
-        <li><a href="reports.php" class="active"><i class=""></i> Reports</a></li>
         <li><a href="index.php"><i class=""></i> Logout</a></li>
     </ul>
 </div>

@@ -15,9 +15,9 @@ function getCount($conn, $query) {
 }
 
 // Check kung may table bago mag-query
-$tableCheck = mysqli_query($conn, "SHOW TABLES LIKE 'hardware'");
+$tableCheck = mysqli_query($conn, "SHOW TABLES LIKE 'hardware_assets'");
 if (mysqli_num_rows($tableCheck) == 0) {
-    die("Error: Table 'hardware' does not exist. Please check your database.");
+    die("Error: Table 'hardware_assets' does not exist. Please check your database.");
 }
 
 // Get statistics
