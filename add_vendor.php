@@ -1,6 +1,7 @@
 <?php
 session_start(); 
 include 'db.php'; 
+include 'sidebar.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $vendor_name = $_POST['vendor_name'];
