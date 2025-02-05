@@ -27,7 +27,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <script src="https://cdn.tailwindcss.com"></script>
     <title>Add Vendor</title>
 </head>
-<body class="bg-gray-100 flex">
+<style>
+    body 
+    {
+        font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #eef2f3, #8e9eab);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            height: 100vh;
+            padding-top: 30px;
+    }
+    
+</style> 
+<body>
     
     <?php include 'sidebar.php'; ?>
     
