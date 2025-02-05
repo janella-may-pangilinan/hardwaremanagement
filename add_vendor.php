@@ -18,12 +18,20 @@
         justify-content: center;
         height: 100vh;
     }
+    .container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 </style> 
 <body>
     
     <?php include 'sidebar.php'; ?>
     
-    <div class="container flex justify-center w-full mt-10">
+    <div class="container">
         <div class="bg-white p-8 rounded-lg shadow-md max-w-lg w-full">
             <h1 class="text-2xl font-bold text-gray-700 mb-6 text-center">Add Vendor</h1>
             
