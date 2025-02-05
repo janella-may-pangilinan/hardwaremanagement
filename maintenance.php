@@ -1,6 +1,9 @@
 <?php
 include 'db.php';
 
+// Fetching list of technicians
+$technicians = mysqli_query($conn, "SELECT id, name FROM technicians");
+
 // Handling repair request submission (CREATE)
 if (isset($_POST['submit_request'])) {
     $hardware_id = $_POST['hardware_id'];
@@ -47,65 +50,6 @@ $requests = mysqli_query($conn, "SELECT * FROM maintenance_requests ORDER BY cre
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
     <title>Maintenance & Repairs</title>
-    <style>
-        body {
-            background: linear-gradient(to right, #eef2f3, #8e9eab);
-            font-family: 'Arial', sans-serif;
-            display: flex;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            flex-grow: 1;
-        }
-        .form-input {
-            border-radius: 8px;
-            border: 1px solid #cbd5e0;
-            padding: 10px;
-            font-size: 1rem;
-            width: 100%;
-        }
-        .form-submit {
-            background-color: #38b2ac;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 5px;
-            font-size: 1.2rem;
-            margin-top: 20px;
-            cursor: pointer;
-        }
-        .form-submit:hover {
-            background-color: #319795;
-        }
-        .table {
-            width: 100%;
-            margin-top: 30px;
-            border-collapse: collapse;
-            background-color: white;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-        .table th, .table td {
-            padding: 15px;
-            text-align: left;
-            border-bottom: 1px solid #e2e8f0;
-        }
-        .table th {
-            background-color: #edf2f7;
-            font-weight: bold;
-            color: #2d3748;
-        }
-        .table tbody tr:hover {
-            background-color: #f7fafc;
-        }
-        .sidebar {
-            width: 250px;
-            background-color: #2d3748;
-            padding: 20px;
-            color: white;
-            position: fixed;
-            height: 100vh;
-        }
-    </style>
 </head>
 <body>
 
@@ -123,7 +67,12 @@ $requests = mysqli_query($conn, "SELECT * FROM maintenance_requests ORDER BY cre
             <label>Issue</label>
             <input type="text" name="issue" class="form-input" required>
             <label>Technician</label>
-            <input type="text" name="technician" class="form-input" required>
+            <select name="technician" class="form-input" required>
+                <option value="">Select Technician</option>
+                <?php while ($tech = mysqli_fetch_assoc($technicians)) { ?>
+                    <option value="<?php echo $tech['name']; ?>"><?php echo $tech['name']; ?></option>
+                <?php } ?>
+            </select>
             <button type="submit" name="submit_request" class="form-submit">Submit</button>
         </form>
     </div>
@@ -149,7 +98,15 @@ $requests = mysqli_query($conn, "SELECT * FROM maintenance_requests ORDER BY cre
                         <?php if ($row['status'] == 'Pending') { ?>
                             <form method="post" style="display:inline-block;">
                                 <input type="hidden" name="request_id" value="<?php echo $row['id']; ?>">
-                                <input type="text" name="technician" class="form-input" placeholder="Assign Technician" required>
+                                <select name="technician" class="form-input" required>
+                                    <option value="">Assign Technician</option>
+                                    <?php
+                                    $technicians = mysqli_query($conn, "SELECT id, name FROM technicians");
+                                    while ($tech = mysqli_fetch_assoc($technicians)) {
+                                        echo "<option value='{$tech['name']}'>{$tech['name']}</option>";
+                                    }
+                                    ?>
+                                </select>
                                 <button type="submit" name="assign_technician" class="form-submit">Assign</button>
                             </form>
                         <?php } ?>
@@ -172,6 +129,5 @@ $requests = mysqli_query($conn, "SELECT * FROM maintenance_requests ORDER BY cre
 
 </body>
 </html>
-
 
 <?php mysqli_close($conn); ?>
