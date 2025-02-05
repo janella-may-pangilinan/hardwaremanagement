@@ -105,14 +105,13 @@
 
     <!-- Sidebar Menu -->
     <ul>
-        <li><a href="dashboard.php" class="active"><i class="fas fa-home"></i> Dashboard</a></li>
-        <li><a href="inventory.php"><i class="fas fa-boxes"></i> Inventory</a></li>
-        <li><a href="add_vendor.php"><i class="fas fa-shopping-cart"></i> List of Vendors</a></li>
-        <li><a href="maintenance.php"><i class="fas fa-tools"></i> Maintenance</a></li>
-        <li><a href="disposal.php"><i class="fas fa-trash-alt"></i> Disposal</a></li>
-        <li><a href="add_warranty.php"><i class="fas fa-trash-alt"></i> Warranty</a></li>
-        <li><a href="reports.php"><i class="fas fa-chart-bar"></i> Reports</a></li>
-        <li><a href="index.php"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+        <li><a href="dashboard.php" class="active"><i class=""></i> Dashboard</a></li>
+        <li><a href="inventory.php" ><i class=""></i> Inventory</a></li>
+        <li><a href="add_vendor.php"><i class=""></i> List of Vendors</a></li>
+        <li><a href="maintenance.php"><i class=""></i> Maintenance</a></li>
+        <li><a href="disposal.php"><i class=""></i> Disposal</a></li>
+        <li><a href="add_warranty.php"><i class=""></i> Warranty</a></li>
+        <li><a href="index.php"><i class=""></i> Logout</a></li>
     </ul>
 </div>
 

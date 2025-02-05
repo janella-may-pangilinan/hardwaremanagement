@@ -15,9 +15,9 @@ function getCount($conn, $query) {
 }
 
 // Check kung may table bago mag-query
-$tableCheck = mysqli_query($conn, "SHOW TABLES LIKE 'hardware'");
+$tableCheck = mysqli_query($conn, "SHOW TABLES LIKE 'hardware_assets'");
 if (mysqli_num_rows($tableCheck) == 0) {
-    die("Error: Table 'hardware' does not exist. Please check your database.");
+    die("Error: Table 'hardware_assets' does not exist. Please check your database.");
 }
 
 // Get statistics
@@ -148,7 +148,7 @@ $logs_result = mysqli_query($conn, "SELECT * FROM activity_logs ORDER BY created
                     <?php echo $out_service; ?>
                     <?php echo $for_disposal; ?>
                 ],
-                backgroundColor: ['#007bff', '#28a745', '#ffc107', '#dc3545', '#FFA500'],
+                backgroundColor: ['#007bff', '#28a745', '#ffc107', '#dc3545', '#ffa500'],
                 borderColor: ['#ffffff'],
                 borderWidth: 2
             }]
