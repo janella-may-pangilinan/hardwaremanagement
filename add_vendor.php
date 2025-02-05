@@ -1,7 +1,6 @@
 <?php
 session_start(); 
 include 'db.php'; 
-include 'sidebar.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $vendor_name = $_POST['vendor_name'];
@@ -28,12 +27,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <script src="https://cdn.tailwindcss.com"></script>
     <title>Add Vendor</title>
 </head>
-
-<style>
-    .body{
-        background: linear-gradient(to right, #eef2f3, #8e9eab);
-    }
-</style>
 
 <body class="bg-gradient-to-r from-gray-100 to-blue-200 flex items-center justify-center min-h-screen p-4">
 
