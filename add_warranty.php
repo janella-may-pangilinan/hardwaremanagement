@@ -1,9 +1,8 @@
 <?php
 include('db.php'); 
-include('sidebar.php');
+include('sidebar.php') ;
 
 $successMessage = '';
-
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $hardware_name = $_POST['hardware_name'];
@@ -129,7 +128,7 @@ if (isset($_GET['edit_id'])) {
             border-radius: 8px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
             max-width: 1000px;
-            margin-left: 250px;
+            display: inline;
         }
 
         form label {
