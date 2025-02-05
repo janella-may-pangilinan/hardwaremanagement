@@ -130,53 +130,54 @@ $logs_result = mysqli_query($conn, "SELECT * FROM activity_logs ORDER BY created
             <canvas id="hardwareBarChart"></canvas>
         </div>
         <script>
-        const ctx = document.getElementById('hardwareBarChart').getContext('2d');
-        const hardwareBarChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: ['Total Hardware', 'Available Assets', 'Under Maintenance', 'Out of Service', 'Under Disposal'],
-                datasets: [{
-                    label: 'Hardware Status',
-                    data: [
-                        <?php echo $available_assets; ?>,
-                        <?php echo $under_maintenance; ?>,
-                        <?php echo $out_service; ?>
-                        <?php echo $for_disposal; ?>
-                    ], // Corresponding data
-                    backgroundColor: [
-                        'rgba(75, 192, 192, 0.7)',   // Available Assets
-                        'rgba(255, 205, 86, 0.7)',   // Under Maintenance
-                        'rgba(255, 99, 132, 0.7)',   // Out of Service
-                        'rgba(153, 102, 255, 0.7)'   // Under Disposal
-                    ],
-                    borderColor: [
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(255, 205, 86, 1)',
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(153, 102, 255, 1)'
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                },
-                plugins: {
-                    legend: {
-                        display: false
-                    },
-                    title: {
-                        display: true,
-                        text: 'Hardware Status Overview'
-                    }
+    const hardwareData = {
+        labels: ['Total Hardware', 'Available Assets', 'Under Maintenance', 'Out of Service', 'Under Disposal'],
+        datasets: [{
+            label: 'Hardware Status',
+            data: [
+                <?php echo $total_hardware; ?>,
+                <?php echo $available_assets; ?>,
+                <?php echo $under_maintenance; ?>,
+                <?php echo $out_of_service; ?>,
+                <?php echo $under_disposal; ?>
+            ],
+            backgroundColor: [
+                'rgba(54, 162, 235, 0.7)',
+                'rgba(75, 192, 192, 0.7)',
+                'rgba(255, 205, 86, 0.7)',
+                'rgba(255, 99, 132, 0.7)',
+                'rgba(153, 102, 255, 0.7)'
+            ],
+            borderColor: [
+                'rgba(54, 162, 235, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(255, 205, 86, 1)',
+                'rgba(255, 99, 132, 1)',
+                'rgba(153, 102, 255, 1)'
+            ],
+            borderWidth: 1
+        }]
+    };
+
+    const ctx = document.getElementById('hardwareBarChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'bar',
+        data: hardwareData,
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
                 }
+            },
+            plugins: {
+                legend: { display: false },
+                title: { display: true, text: 'Hardware Status Overview' }
             }
-        });
-    </script>
+        }
+    });
+</script>
+
     </div>
     </div>
     </div>
