@@ -30,8 +30,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <style>
     body 
     {
-        background: linear-gradient(to right, #eef2f3, #8e9eab);
+        font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #eef2f3, #8e9eab);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            height: 100vh;
+            padding-top: 30px;
     }
+    
 </style> 
 <body>
     
