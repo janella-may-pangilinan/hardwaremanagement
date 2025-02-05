@@ -1,6 +1,6 @@
 <?php
 include 'db.php';
-
+include 'sidebar.php';
 // Asset Depreciation Tracking
 function calculateDepreciation($purchase_price, $years) {
     $depreciation_rate = 0.2; // Example: 20% per year
@@ -80,7 +80,7 @@ $result_disposals = $conn->query($sql_disposals);
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            background: linear-gradient(to right, #eef2f3, #8e9eab);
             margin: 0;
             padding: 0;
             display: flex;
@@ -97,7 +97,7 @@ $result_disposals = $conn->query($sql_disposals);
         }
 
         .container {
-            width: 80%;
+            width: 100%;
             max-width: 1000px;
             padding: 20px;
             background-color: white;
