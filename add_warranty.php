@@ -103,7 +103,6 @@ if (isset($_GET['edit_id'])) {
             color: #333;
             line-height: 1.6;
             margin: 0px;
-            margin-left: 270px;
             font-family: Arial, sans-serif;
         }
 
