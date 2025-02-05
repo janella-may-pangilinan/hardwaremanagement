@@ -99,10 +99,12 @@ if (isset($_GET['edit_id'])) {
         
         
         body {
-            background-color: #f4f7fc;
+            background: linear-gradient(to right, #eef2f3, #8e9eab);
             color: #333;
             line-height: 1.6;
-            padding: 20px;
+            margin: 0px;
+            margin-left: 270px;
+            font-family: Arial, sans-serif;
         }
 
         h1 {
