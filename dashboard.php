@@ -148,7 +148,7 @@ $logs_result = mysqli_query($conn, "SELECT * FROM activity_logs ORDER BY created
                     <?php echo $out_service; ?>
                     <?php echo $for_disposal; ?>
                 ],
-                backgroundColor: ['#007bff', '#28a745', '#ffc107', '#dc3545', '#FFA500'],
+                backgroundColor: ['#007bff', '#28a745', '#ffc107', '#dc3545', '#ffa500'],
                 borderColor: ['#ffffff'],
                 borderWidth: 2
             }]
