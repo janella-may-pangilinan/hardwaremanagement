@@ -31,27 +31,31 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     
     <?php include 'sidebar.php'; ?>
     
-    <div class="container mx-auto p-6 ml-64">
+    <div class="container mx-auto p-8 ml-64">
         <h1 class="text-2xl font-bold text-gray-700 mb-6">Add Vendor</h1>
         
-        <div class="bg-white shadow-md rounded-lg p-6 max-w-lg mx-auto">
+        <div class="bg-white p-6 rounded-lg shadow-md">
             <form method="POST" action="add_vendor.php" class="space-y-4">
                 <div>
-                    <label for="vendor_name" class="block text-sm font-semibold text-gray-700">Vendor Name</label>
-                    <input type="text" name="vendor_name" class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                    <label class="block text-sm font-semibold text-gray-700" for="vendor_name">Vendor Name</label>
+                    <input type="text" name="vendor_name" class="w-full p-3 border border-gray-300 rounded-lg" required>
                 </div>
+                
                 <div>
-                    <label for="contact" class="block text-sm font-semibold text-gray-700">Contact</label>
-                    <input type="text" name="contact" class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                    <label class="block text-sm font-semibold text-gray-700" for="contact">Contact</label>
+                    <input type="text" name="contact" class="w-full p-3 border border-gray-300 rounded-lg" required>
                 </div>
+                
                 <div>
-                    <label for="hardware_type" class="block text-sm font-semibold text-gray-700">Hardware Type</label>
-                    <input type="text" name="hardware_type" class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                    <label class="block text-sm font-semibold text-gray-700" for="hardware_type">Hardware Type</label>
+                    <input type="text" name="hardware_type" class="w-full p-3 border border-gray-300 rounded-lg" required>
                 </div>
-                <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 rounded-md">Add Vendor</button>
+                
+                <button type="submit" class="w-full bg-blue-500 text-white py-3 rounded-lg text-lg hover:bg-blue-600">Add Vendor</button>
             </form>
-            <a href="vendor_list.php" class="block text-center text-white bg-green-500 hover:bg-green-600 mt-4 py-2 rounded-md">View List of Vendors</a>
         </div>
+        
+        <a href="vendor_list.php" class="mt-6 inline-block bg-green-500 text-white py-3 px-6 rounded-lg text-lg hover:bg-green-600">View List of Vendors</a>
     </div>
     
 </body>
