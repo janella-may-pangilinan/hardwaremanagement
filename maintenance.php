@@ -9,17 +9,25 @@ if (isset($_POST['submit_request'])) {
     $hardware_id = $_POST['hardware_id'];
     $issue = $_POST['issue'];
     $technician = $_POST['technician'];
-    $insert_query = "INSERT INTO maintenance_requests (hardware_id, issue, technician, status) VALUES ('$hardware_id', '$issue', '$technician', 'Pending')";
-    mysqli_query($conn, $insert_query);
-    echo "<script>alert('Repair request submitted successfully!');</script>";
+    
+    $insert_query = "INSERT INTO maintenance_requests (hardware_id, issue, technician, status) 
+                     VALUES ('$hardware_id', '$issue', '$technician', 'Pending')";
+    
+    if (!mysqli_query($conn, $insert_query)) {
+        die("Error: " . mysqli_error($conn)); // Error checking
+    }
 }
 
 // Handling technician assignment (UPDATE)
 if (isset($_POST['assign_technician'])) {
     $request_id = $_POST['request_id'];
     $technician = $_POST['technician'];
+    
     $update_query = "UPDATE maintenance_requests SET technician = '$technician', status = 'In Progress' WHERE id = '$request_id'";
-    mysqli_query($conn, $update_query);
+    
+    if (!mysqli_query($conn, $update_query)) {
+        die("Error: " . mysqli_error($conn));
+    }
 }
 
 // Handling status updates (UPDATE)
@@ -70,7 +78,7 @@ $requests = mysqli_query($conn, "SELECT * FROM maintenance_requests ORDER BY cre
             <select name="technician" class="form-input" required>
                 <option value="">Select Technician</option>
                 <?php while ($tech = mysqli_fetch_assoc($technicians)) { ?>
-                    <option value="<?php echo $tech['name']; ?>"><?php echo $tech['name']; ?></option>
+                    <option value="<?php echo $tech['id']; ?>"><?php echo $tech['name']; ?></option>
                 <?php } ?>
             </select>
             <button type="submit" name="submit_request" class="form-submit">Submit</button>
@@ -93,7 +101,14 @@ $requests = mysqli_query($conn, "SELECT * FROM maintenance_requests ORDER BY cre
                     <td><?php echo $row['hardware_id']; ?></td>
                     <td><?php echo $row['issue']; ?></td>
                     <td><?php echo $row['status']; ?></td>
-                    <td><?php echo !empty($row['technician']) ? $row['technician'] : 'Not Assigned'; ?></td>
+                    <td>
+                        <?php
+                        $tech_id = $row['technician'];
+                        $tech_query = mysqli_query($conn, "SELECT name FROM technicians WHERE id = '$tech_id'");
+                        $tech_data = mysqli_fetch_assoc($tech_query);
+                        echo !empty($tech_data['name']) ? $tech_data['name'] : 'Not Assigned';
+                        ?>
+                    </td>
                     <td>
                         <?php if ($row['status'] == 'Pending') { ?>
                             <form method="post" style="display:inline-block;">
@@ -103,7 +118,7 @@ $requests = mysqli_query($conn, "SELECT * FROM maintenance_requests ORDER BY cre
                                     <?php
                                     $technicians = mysqli_query($conn, "SELECT id, name FROM technicians");
                                     while ($tech = mysqli_fetch_assoc($technicians)) {
-                                        echo "<option value='{$tech['name']}'>{$tech['name']}</option>";
+                                        echo "<option value='{$tech['id']}'>{$tech['name']}</option>";
                                     }
                                     ?>
                                 </select>
