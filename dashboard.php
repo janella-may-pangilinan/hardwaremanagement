@@ -138,21 +138,18 @@ $logs_result = mysqli_query($conn, "SELECT * FROM activity_logs ORDER BY created
                 datasets: [{
                     label: 'Hardware Status',
                     data: [
-                        <?php echo $total_hardware; ?>,
                         <?php echo $available_assets; ?>,
                         <?php echo $under_maintenance; ?>,
                         <?php echo $out_service; ?>
                         <?php echo $for_disposal; ?>
                     ], // Corresponding data
                     backgroundColor: [
-                        'rgba(54, 162, 235, 0.7)',   // Total Hardware
                         'rgba(75, 192, 192, 0.7)',   // Available Assets
                         'rgba(255, 205, 86, 0.7)',   // Under Maintenance
                         'rgba(255, 99, 132, 0.7)',   // Out of Service
                         'rgba(153, 102, 255, 0.7)'   // Under Disposal
                     ],
                     borderColor: [
-                        'rgba(54, 162, 235, 1)',
                         'rgba(75, 192, 192, 1)',
                         'rgba(255, 205, 86, 1)',
                         'rgba(255, 99, 132, 1)',
