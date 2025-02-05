@@ -138,8 +138,8 @@ $logs_result = mysqli_query($conn, "SELECT * FROM activity_logs ORDER BY created
                 <?php echo $total_hardware; ?>,
                 <?php echo $available_assets; ?>,
                 <?php echo $under_maintenance; ?>,
-                <?php echo $out_of_service; ?>,
-                <?php echo $under_disposal; ?>
+                <?php echo $out_service; ?>,
+                <?php echo $for_disposal; ?>
             ],
             backgroundColor: [
                 'rgba(54, 162, 235, 0.7)',
