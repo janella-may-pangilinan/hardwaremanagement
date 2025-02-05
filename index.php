@@ -100,7 +100,7 @@ include 'db.php';
 <body>
 
 <div class="login-box">
-    <h2>Admin Login</h2>
+    <h2>Hardware Management System</h2>
     
     <?php if (isset($_GET['error'])): ?>
         <p class="error"><?php echo htmlspecialchars($_GET['error']); ?></p>
